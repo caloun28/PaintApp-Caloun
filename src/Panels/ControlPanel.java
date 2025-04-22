@@ -1,9 +1,6 @@
 package Panels;
 
-import Tools.DrawTool;
-import Tools.EraserTool;
-import Tools.FillTool;
-import Tools.ThicknessSelector;
+import Tools.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -20,9 +17,14 @@ public class ControlPanel extends JPanel implements ChangeListener {
 
     public ControlPanel(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
+
         DrawTool drawTool = new DrawTool(paintCanvas);
         EraserTool eraserTool = new EraserTool(paintCanvas);
+
         FillTool fillTool = new FillTool(paintCanvas);
+        paintCanvas.setFillTool(fillTool);
+
+        ColorPalette colorPalette = new ColorPalette(paintCanvas);
 
         setBounds(0, 0, 1920, 80);
         setBackground(new Color(245, 235, 215));
@@ -49,6 +51,7 @@ public class ControlPanel extends JPanel implements ChangeListener {
         add(drawTool);
         add(eraserTool);
         add(fillTool);
+        add(colorPalette);
         add(thicknessSelector);
     }
 

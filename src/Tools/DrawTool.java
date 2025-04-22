@@ -12,12 +12,15 @@ import java.util.ArrayList;
 
 public class DrawTool extends JButton implements ActionListener, Strokes {
 
-    private ImageIcon drawIcon = new ImageIcon("drawTool.png");
+    private ImageIcon icon = new ImageIcon("drawTool.png");
     private PaintCanvas paintCanvas;
+    private ArrayList<Point> points = new ArrayList<>();
+    private int thickness;
+    private Color color;
 
     public DrawTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
-        Image scaledImage = drawIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         setBorderPainted(false);
@@ -44,8 +47,7 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
         }
     }
 
-    private ArrayList<Point> points = new ArrayList<>();
-    private int thickness;
+
 
     public void addPoint(Point p) {
         points.add(p);
@@ -53,7 +55,7 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
 
     public void handDraw(Graphics2D g2d) {
         g2d.setStroke(new BasicStroke(thickness));
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(color);
         for (int i = 1; i < points.size(); i++) {
             Point p1 = points.get(i - 1);
             Point p2 = points.get(i);
@@ -68,6 +70,10 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
 
     public void setThickness(int thickness) {
         this.thickness = thickness;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override

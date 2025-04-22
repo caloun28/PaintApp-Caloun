@@ -10,12 +10,15 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class EraserTool extends JButton implements ActionListener, Strokes {
-    private ImageIcon drawIcon = new ImageIcon("eraserTool.png");
+    private ImageIcon icon = new ImageIcon("eraserTool.png");
     private PaintCanvas paintCanvas;
+    private ArrayList<Point> points = new ArrayList<>();
+    private int thickness;
+
     public EraserTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
-        Image scaledImage = drawIcon.getImage().getScaledInstance(11, 20, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(11, 20, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         setBorderPainted(false);
@@ -44,8 +47,7 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
         }
     }
 
-    private ArrayList<Point> points = new ArrayList<>();
-    private int thickness;
+
 
     public void addPoint(Point p) {
         points.add(p);
@@ -68,5 +70,9 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
     @Override
     public void draw(Graphics2D g2d) {
         handErase(g2d);
+    }
+
+    @Override
+    public void setColor(Color color) {
     }
 }

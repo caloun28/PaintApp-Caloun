@@ -3,6 +3,7 @@ package Panels;
 import Functions.Strokes;
 import Tools.DrawTool;
 import Tools.EraserTool;
+import Tools.FillTool;
 import Tools.ToolType;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
@@ -20,17 +22,24 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     private ToolType currentTool = ToolType.NONE;
     private DrawTool drawStroke = null;
     private EraserTool eraseStroke = null;
+    private FillTool fillTool;
     private ArrayList<Strokes> strokes = new ArrayList<>();
     private boolean drawing = false;
     private boolean resize = false;
     private boolean erasing = false;
     private int lineThickness = 3;
+    private Color currentColor = Color.BLACK;
+    private BufferedImage canvasImage;
 
     public PaintCanvas() {
         setBackground(Color.WHITE);
         setBounds(10, 90, 1740, 750);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         setVisible(true);
+
+        canvasImage = new BufferedImage(1740, 750, BufferedImage.TYPE_INT_ARGB);
+
+
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -39,12 +48,24 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         this.currentTool = tool;
     }
 
+    public void setFillTool(FillTool fillTool) {
+        this.fillTool = fillTool;
+    }
+
     public ToolType getCurrentTool() {
         return currentTool;
     }
 
     public void setLineThickness(int thickness) {
         this.lineThickness = thickness;
+    }
+
+    public BufferedImage getCanvasImage() {
+        return canvasImage;
+    }
+
+    public void setCurrentColor(Color currentColor) {
+        this.currentColor = currentColor;
     }
 
     @Override
@@ -59,6 +80,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
             case DRAW:
                 drawing = true;
                 drawStroke = new DrawTool(this);
+                drawStroke.setColor(currentColor);
                 drawStroke.setThickness(lineThickness);
                 drawStroke.addPoint(e.getPoint());
                 strokes.add(drawStroke);
@@ -72,7 +94,15 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                 strokes.add(eraseStroke);
                 break;
 
+            case FILL:
+                if (fillTool != null) {
+                    int oldColor = canvasImage.getRGB(e.getX(), e.getY());
 
+                    int newColor = currentColor.getRGB();
+
+                    fillTool.fill(e.getX(), e.getY(), oldColor, newColor);
+                }
+                break;
         }
 
 
@@ -108,6 +138,10 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
             case DRAW:
                 if (drawing && drawStroke != null) {
                     drawStroke.addPoint(e.getPoint());
+                    Graphics2D g2d = canvasImage.createGraphics();
+                    drawStroke.draw(g2d);
+
+                    g2d.dispose();
                     repaint();
                 }
                 break;
@@ -115,6 +149,10 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
             case ERASER:
                 if (erasing && eraseStroke != null) {
                     eraseStroke.addPoint(e.getPoint());
+                    Graphics2D g2d = canvasImage.createGraphics();
+                    eraseStroke.draw(g2d);
+
+                    g2d.dispose();
                     repaint();
                 }
                 break;
@@ -156,10 +194,6 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
         g2d.fillRect(x, y, size, size);
 
-        g2d.setStroke(new BasicStroke(lineThickness));
-
-        for (Strokes stroke : strokes) {
-            stroke.draw(g2d);
-        }
+        g.drawImage(canvasImage, 0, 0, null);
     }
 }
