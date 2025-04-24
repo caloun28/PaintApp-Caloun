@@ -17,11 +17,11 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
     private ArrayList<Point> points = new ArrayList<>();
     private int thickness;
     private Color color;
-
+    private Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+    private ImageIcon scaledIcon = new ImageIcon(scaledImage);
     public DrawTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
-        Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
 
         setBorderPainted(false);
         setFocusPainted(false);
@@ -34,6 +34,10 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
 
         addActionListener(this);
         setIcon(scaledIcon);
+    }
+
+    public ImageIcon getScaledIcon() {
+        return scaledIcon;
     }
 
     @Override

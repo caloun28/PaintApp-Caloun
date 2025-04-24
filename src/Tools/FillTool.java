@@ -10,13 +10,14 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 public class FillTool extends JButton implements ActionListener {
-    private ImageIcon drawIcon = new ImageIcon("fillTool.png");
+    private ImageIcon icon = new ImageIcon("fillTool.png");
     private PaintCanvas paintCanvas;
+    private Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+    private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public FillTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
-        Image scaledImage = drawIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
 
         setBorderPainted(false);
         setFocusPainted(false);
@@ -29,6 +30,10 @@ public class FillTool extends JButton implements ActionListener {
 
         addActionListener(this);
         setIcon(scaledIcon);
+    }
+
+    public ImageIcon getScaledIcon() {
+        return scaledIcon;
     }
 
     @Override
@@ -54,6 +59,7 @@ public class FillTool extends JButton implements ActionListener {
      */
     public void fill(int x, int y, int oldColor, int newColor) {
         BufferedImage canvasImage = paintCanvas.getCanvasImage();
+
 
         if (x < 0 || y < 0 || x >= paintCanvas.getWidth() || y >= paintCanvas.getHeight()) return;
 

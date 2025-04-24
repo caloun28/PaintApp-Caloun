@@ -19,8 +19,9 @@ public class ControlPanel extends JPanel implements ChangeListener {
         this.paintCanvas = paintCanvas;
 
         DrawTool drawTool = new DrawTool(paintCanvas);
+        paintCanvas.setDrawStroke(drawTool);
         EraserTool eraserTool = new EraserTool(paintCanvas);
-
+        paintCanvas.setEraseStroke(eraserTool);
         FillTool fillTool = new FillTool(paintCanvas);
         paintCanvas.setFillTool(fillTool);
 

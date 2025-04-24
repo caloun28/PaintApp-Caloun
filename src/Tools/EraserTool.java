@@ -3,23 +3,26 @@ package Tools;
 import Functions.Strokes;
 import Panels.PaintCanvas;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class EraserTool extends JButton implements ActionListener, Strokes {
-    private ImageIcon icon = new ImageIcon("eraserTool.png");
+    private ImageIcon eraserIcon = new ImageIcon("eraserTool.png");
     private PaintCanvas paintCanvas;
     private ArrayList<Point> points = new ArrayList<>();
     private int thickness;
+    private Image scaledImage = eraserIcon.getImage().getScaledInstance(10, 20, Image.SCALE_SMOOTH);
+    private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public EraserTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
-
-        Image scaledImage = icon.getImage().getScaledInstance(11, 20, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         setBorderPainted(false);
         setFocusPainted(false);
@@ -35,6 +38,9 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
 
     }
 
+    public Image getScaledImage() {
+        return scaledImage;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

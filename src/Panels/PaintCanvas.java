@@ -6,6 +6,7 @@ import Tools.EraserTool;
 import Tools.FillTool;
 import Tools.ToolType;
 
+import javax.imageio.IIOImage;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
@@ -20,8 +21,8 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
     private Point lastPoint;
     private ToolType currentTool = ToolType.NONE;
-    private DrawTool drawStroke = null;
-    private EraserTool eraseStroke = null;
+    private DrawTool drawStroke;
+    private EraserTool eraseStroke;
     private FillTool fillTool;
     private ArrayList<Strokes> strokes = new ArrayList<>();
     private boolean drawing = false;
@@ -32,11 +33,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     private BufferedImage canvasImage;
 
     public PaintCanvas() {
+
         setBackground(Color.WHITE);
         setBounds(10, 90, 1740, 750);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         setVisible(true);
-
         canvasImage = new BufferedImage(1740, 750, BufferedImage.TYPE_INT_ARGB);
 
 
@@ -49,7 +50,15 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public void setFillTool(FillTool fillTool) {
-        this.fillTool = fillTool;
+            this.fillTool = fillTool;
+    }
+
+    public void setDrawStroke(DrawTool drawStroke) {
+        this.drawStroke = drawStroke;
+    }
+
+    public void setEraseStroke(EraserTool eraseStroke) {
+        this.eraseStroke = eraseStroke;
     }
 
     public ToolType getCurrentTool() {
@@ -63,6 +72,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     public BufferedImage getCanvasImage() {
         return canvasImage;
     }
+
 
     public void setCurrentColor(Color currentColor) {
         this.currentColor = currentColor;
@@ -177,7 +187,23 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         if (e.getX() >= getWidth() - 20 && e.getY() >= getHeight() - 20) {
             setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
         } else {
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            switch (currentTool){
+                case FILL:
+                    Point fillHotspot = new Point(0,26);
+                    setCursor(getToolkit().createCustomCursor(fillTool.getScaledIcon().getImage(),fillHotspot,"fillCursor"));
+                    break;
+                case DRAW:
+                    Point drawHotspot = new Point(0,31);
+                    setCursor(getToolkit().createCustomCursor(drawStroke.getScaledIcon().getImage(),drawHotspot,"drawCursor"));
+                    break;
+                case ERASER:
+                    Point eraserHotspot = new Point(0,20);
+                    setCursor(getToolkit().createCustomCursor(eraserImage,eraserHotspot,"eraserCursor"));
+                    break;
+                case NONE:
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    break;
+            }
         }
     }
 
@@ -187,13 +213,12 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GRAY);
+        g.drawImage(canvasImage, 0, 0, null);
 
         int size = 10;
         int x = getWidth() - size;
         int y = getHeight() - size;
 
         g2d.fillRect(x, y, size, size);
-
-        g.drawImage(canvasImage, 0, 0, null);
     }
 }
