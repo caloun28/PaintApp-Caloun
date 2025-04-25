@@ -24,6 +24,8 @@ public class ControlPanel extends JPanel implements ChangeListener {
         paintCanvas.setEraseStroke(eraserTool);
         FillTool fillTool = new FillTool(paintCanvas);
         paintCanvas.setFillTool(fillTool);
+        DropperTool dropperTool = new DropperTool(paintCanvas);
+        paintCanvas.setDropperTool(dropperTool);
 
         ColorPalette colorPalette = new ColorPalette(paintCanvas);
 
@@ -53,6 +55,7 @@ public class ControlPanel extends JPanel implements ChangeListener {
         add(eraserTool);
         add(fillTool);
         add(colorPalette);
+        add(dropperTool);
         add(thicknessSelector);
     }
 
