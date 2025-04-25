@@ -18,7 +18,7 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
     private PaintCanvas paintCanvas;
     private ArrayList<Point> points = new ArrayList<>();
     private int thickness;
-    private Image scaledImage = eraserIcon.getImage().getScaledInstance(10, 20, Image.SCALE_SMOOTH);
+    private Image scaledImage = eraserIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public EraserTool(PaintCanvas paintCanvas) {
@@ -38,8 +38,25 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
 
     }
 
-    public Image getScaledImage() {
-        return scaledImage;
+    public void eraserCursor(){
+        int cursorSize = 32;
+        int squareSize = 8;
+
+        BufferedImage cursorImage = new BufferedImage(cursorSize, cursorSize, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = cursorImage.createGraphics();
+
+        int x = (cursorSize - squareSize) / 2;
+        int y = (cursorSize - squareSize) / 2;
+
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(x,y,squareSize,squareSize);
+
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(x,y,squareSize-1,squareSize-1  );
+
+        g2d.dispose();
+
+        paintCanvas.setCursor(getToolkit().createCustomCursor(cursorImage, new Point(cursorSize/2, cursorSize/2), "Eraser"));
     }
 
     @Override

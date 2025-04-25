@@ -1,5 +1,5 @@
 package Tools;
 
 public enum ToolType {
-    NONE,DRAW,RESIZE,ERASER,FILL
+    NONE,DRAW,RESIZE,ERASER,FILL,DROPPER
 }

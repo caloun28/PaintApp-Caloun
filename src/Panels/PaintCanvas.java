@@ -1,10 +1,7 @@
 package Panels;
 
 import Functions.Strokes;
-import Tools.DrawTool;
-import Tools.EraserTool;
-import Tools.FillTool;
-import Tools.ToolType;
+import Tools.*;
 
 import javax.imageio.IIOImage;
 import javax.swing.*;
@@ -24,13 +21,17 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     private DrawTool drawStroke;
     private EraserTool eraseStroke;
     private FillTool fillTool;
+    private DropperTool dropperTool;
     private ArrayList<Strokes> strokes = new ArrayList<>();
     private boolean drawing = false;
     private boolean resize = false;
     private boolean erasing = false;
+    private boolean filling = false;
+    private boolean dropping = false;
     private int lineThickness = 3;
     private Color currentColor = Color.BLACK;
     private BufferedImage canvasImage;
+    private ColorPalette colorPalette;
 
     public PaintCanvas() {
 
@@ -53,6 +54,10 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
             this.fillTool = fillTool;
     }
 
+    public void setDropperTool(DropperTool dropperTool) {
+        this.dropperTool = dropperTool;
+    }
+
     public void setDrawStroke(DrawTool drawStroke) {
         this.drawStroke = drawStroke;
     }
@@ -73,9 +78,20 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         return canvasImage;
     }
 
+    public void resizeCanvasImage(int newWidth, int newHeight) {
+        BufferedImage newImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = newImage.createGraphics();
+        g.drawImage(canvasImage, 0, 0, null);
+        g.dispose();
+        canvasImage = newImage;
+        repaint();
+    }
 
     public void setCurrentColor(Color currentColor) {
         this.currentColor = currentColor;
+        if (colorPalette != null) {
+            colorPalette.updateColor(currentColor);
+        }
     }
 
     @Override
@@ -106,6 +122,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
             case FILL:
                 if (fillTool != null) {
+                    filling = true;
                     int oldColor = canvasImage.getRGB(e.getX(), e.getY());
 
                     int newColor = currentColor.getRGB();
@@ -113,13 +130,21 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                     fillTool.fill(e.getX(), e.getY(), oldColor, newColor);
                 }
                 break;
+            case DROPPER:
+                dropping = true;
+                int x = e.getX();
+                int y = e.getY();
+                dropperTool.findColor(x, y);
         }
 
 
         if (e.getX() >= getWidth() - 20 && e.getY() >= getHeight() - 20) {
+            filling = false;
             drawing = false;
             erasing = false;
+            dropping = false;
             resize = true;
+
             lastPoint = e.getPoint();
         }
     }
@@ -129,6 +154,8 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         resize = false;
         drawing = false;
         erasing = false;
+        filling = false;
+        dropping = false;
     }
 
     @Override
@@ -161,7 +188,6 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                     eraseStroke.addPoint(e.getPoint());
                     Graphics2D g2d = canvasImage.createGraphics();
                     eraseStroke.draw(g2d);
-
                     g2d.dispose();
                     repaint();
                 }
@@ -169,12 +195,16 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         }
 
         if (resize) {
+            filling = false;
+            erasing = false;
             drawing = false;
+            dropping = false;
             int newW = getWidth() + (e.getX() - lastPoint.x);
             int newH = getHeight() + (e.getY() - lastPoint.y);
 
             if (newW > 200 && newW < 1905 && newH > 200 && newH < 960) {
                 setBounds(10, 90, newW, newH);
+                resizeCanvasImage(newW, newH);
                 revalidate();
                 repaint();
                 lastPoint = e.getPoint();
@@ -189,16 +219,16 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         } else {
             switch (currentTool){
                 case FILL:
-                    Point fillHotspot = new Point(0,26);
-                    setCursor(getToolkit().createCustomCursor(fillTool.getScaledIcon().getImage(),fillHotspot,"fillCursor"));
+                    fillTool.fillCursor();
                     break;
                 case DRAW:
-                    Point drawHotspot = new Point(0,31);
-                    setCursor(getToolkit().createCustomCursor(drawStroke.getScaledIcon().getImage(),drawHotspot,"drawCursor"));
+                    drawStroke.drawCursor();
                     break;
                 case ERASER:
-                    Point eraserHotspot = new Point(0,20);
-                    setCursor(getToolkit().createCustomCursor(eraserImage,eraserHotspot,"eraserCursor"));
+                    eraseStroke.eraserCursor();
+                    break;
+                case DROPPER:
+                    dropperTool.dropperCursor();
                     break;
                 case NONE:
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

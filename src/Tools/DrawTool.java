@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
@@ -19,6 +20,7 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
     private Color color;
     private Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
     public DrawTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -36,9 +38,10 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
         setIcon(scaledIcon);
     }
 
-    public ImageIcon getScaledIcon() {
-        return scaledIcon;
+    public void drawCursor(){
+        paintCanvas.setCursor(getToolkit().createCustomCursor(icon.getImage(), new Point(0, 31), "cursor"));
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -67,9 +70,6 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
         }
     }
 
-    public ArrayList<Point> getPoints() {
-        return points;
-    }
 
 
     public void setThickness(int thickness) {
