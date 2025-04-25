@@ -29,6 +29,11 @@ public class ColorPalette extends JButton implements ActionListener {
         addActionListener(this);
     }
 
+    public void updateColor(Color color) {
+        setBackground(color);
+        repaint();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
