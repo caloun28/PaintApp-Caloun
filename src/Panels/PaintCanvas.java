@@ -32,11 +32,13 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     private Color currentColor = Color.BLACK;
     private BufferedImage canvasImage;
     private ColorPalette colorPalette;
+    private UndoTool undoTool;
+    private RedoTool redoTool;
 
     public PaintCanvas() {
 
         setBackground(Color.WHITE);
-        setBounds(10, 90, 1740, 750);
+        setBounds(90, 10, 1740, 750);
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         setVisible(true);
         canvasImage = new BufferedImage(1740, 750, BufferedImage.TYPE_INT_ARGB);
@@ -44,6 +46,18 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
         addMouseListener(this);
         addMouseMotionListener(this);
+    }
+
+    public void setColorPalette(ColorPalette colorPalette) {
+        this.colorPalette = colorPalette;
+    }
+
+    public void setRedoTool(RedoTool redoTool) {
+        this.redoTool = redoTool;
+    }
+
+    public void setUndoTool(UndoTool undoTool) {
+        this.undoTool = undoTool;
     }
 
     public void setToolMode(ToolType tool) {
@@ -202,8 +216,8 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
             int newW = getWidth() + (e.getX() - lastPoint.x);
             int newH = getHeight() + (e.getY() - lastPoint.y);
 
-            if (newW > 200 && newW < 1905 && newH > 200 && newH < 960) {
-                setBounds(10, 90, newW, newH);
+            if (newW > 1 && newW < 1800 && newH > 1 && newH < 1020) {
+                setBounds(90, 10, newW, newH);
                 resizeCanvasImage(newW, newH);
                 revalidate();
                 repaint();

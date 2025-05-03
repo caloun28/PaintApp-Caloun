@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class DropperTool extends JButton implements ActionListener {
     private ImageIcon icon = new ImageIcon("dropperTool.png");
     private PaintCanvas paintCanvas;
-    private Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public DropperTool(PaintCanvas paintCanvas) {
@@ -23,7 +23,7 @@ public class DropperTool extends JButton implements ActionListener {
         setOpaque(false);
         setToolTipText("Draw Tool");
 
-        setBounds(120,50,20,20);
+        setBounds(25,200,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 
@@ -56,7 +56,6 @@ public class DropperTool extends JButton implements ActionListener {
         Color color = new Color(rgb, true);
 
         paintCanvas.setCurrentColor(color);
-        System.out.println("Color: " + color);
     }
 
 }

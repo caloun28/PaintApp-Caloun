@@ -11,7 +11,7 @@ public class ThicknessSelector extends JSpinner {
         setFont(new Font("Segoe UI", Font.PLAIN, 14));
         setBorder(BorderFactory.createLineBorder(new Color(180, 180, 180), 1, true));
         setBackground(Color.WHITE);
-        setBounds(220, 25, 55, 30);
+        setBounds(13, 300, 54, 30);
     }
 
     public int getThickness() {

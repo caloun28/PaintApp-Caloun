@@ -13,7 +13,7 @@ public class ColorPalette extends JButton implements ActionListener {
 
     public ColorPalette(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
-        Image scaledImage = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         setBorderPainted(false);
@@ -21,7 +21,7 @@ public class ColorPalette extends JButton implements ActionListener {
         setOpaque(false);
         setToolTipText("Color Palette");
 
-        setBounds(300,20,40,40);
+        setBounds(25,250,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

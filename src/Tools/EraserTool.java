@@ -18,7 +18,7 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
     private PaintCanvas paintCanvas;
     private ArrayList<Point> points = new ArrayList<>();
     private int thickness;
-    private Image scaledImage = eraserIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+    private Image scaledImage = eraserIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public EraserTool(PaintCanvas paintCanvas) {
@@ -30,7 +30,7 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
         setToolTipText("Eraser");
         setIcon(scaledIcon);
 
-        setBounds(145,25,20,20);
+        setBounds(25,100,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

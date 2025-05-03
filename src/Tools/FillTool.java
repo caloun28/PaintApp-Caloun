@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class FillTool extends JButton implements ActionListener {
     private ImageIcon icon = new ImageIcon("fillTool.png");
     private PaintCanvas paintCanvas;
-    private Image scaledImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public FillTool(PaintCanvas paintCanvas) {
@@ -24,7 +24,7 @@ public class FillTool extends JButton implements ActionListener {
         setOpaque(false);
         setToolTipText("Fill Tool");
 
-        setBounds(170, 25, 20, 20);
+        setBounds(25, 150, 30, 30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 
