@@ -1,5 +1,6 @@
 package Tools;
 
+import Functions.Images;
 import Panels.PaintCanvas;
 
 import javax.swing.*;
@@ -7,15 +8,20 @@ import javax.tools.Tool;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-public class RedoTool extends JButton implements ActionListener {
+public class RedoTool extends JButton implements ActionListener, Images {
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("redoTool.png");
     private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    private ArrayList<BufferedImage> redoHistory;
+    private int redoIndex = -1;
 
     public RedoTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
+        this.redoHistory = new ArrayList<>();
 
         setBorderPainted(false);
         setFocusPainted(false);
@@ -29,14 +35,60 @@ public class RedoTool extends JButton implements ActionListener {
         addActionListener(this);
     }
 
+    public void saveRedo(BufferedImage image) {
+        while (redoHistory.size() > redoIndex + 1) {
+            redoHistory.removeLast();
+        }
+
+        redoHistory.add(copyImage(image));
+        redoIndex++;
+    }
+
+    public void clear() {
+        redoHistory.clear();
+        redoIndex = -1;
+    }
+
+    public void redo(){
+        if (redoIndex >= 0) {
+            BufferedImage redoImage = redoHistory.get(redoIndex);
+            redoIndex--;
+
+            if (paintCanvas.getUndoTool() != null) {
+                paintCanvas.getUndoTool().save();
+            }
+
+            paintCanvas.setCanvasImage(copyImage(redoImage));
+            paintCanvas.repaint();
+        }
+    }
+
+    public BufferedImage copyImage(BufferedImage image) {
+        BufferedImage copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+        Graphics2D g = copy.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return copy;
+    }
+
+    public void addToRedo(BufferedImage image) {
+        while (redoHistory.size() > redoIndex + 1) {
+            redoHistory.removeLast();
+        }
+
+        redoHistory.add(copyImage(image));
+        redoIndex++;
+    }
+
+    public void clearHistory() {
+        redoHistory.clear();
+        redoIndex = -1;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
-            if(paintCanvas.getCurrentTool() == ToolType.REDO){
-                paintCanvas.setToolMode(ToolType.NONE);
-            }else{
-                paintCanvas.setToolMode(ToolType.REDO);
-            }
+            redo();
         }
     }
 }
