@@ -1,5 +1,6 @@
 package Panels;
 
+import Tools.StraightLine;
 import Tools.*;
 
 import javax.swing.*;
@@ -34,6 +35,8 @@ public class ControlPanel extends JPanel implements ChangeListener {
         paintCanvas.setColorPalette(colorPalette);
         RedoTool redoTool = new RedoTool(paintCanvas);
         paintCanvas.setRedoTool(redoTool);
+        StraightLine straightLine = new StraightLine(paintCanvas);
+        paintCanvas.setStraightLine(straightLine);
 
         setBounds(0, 0, 80, 1080);
         setBackground(new Color(245, 235, 215));
@@ -76,6 +79,7 @@ public class ControlPanel extends JPanel implements ChangeListener {
         add(dropperTool);
         add(undoTool);
         add(redoTool);
+        add(straightLine);
         add(thicknessSelector);
     }
 

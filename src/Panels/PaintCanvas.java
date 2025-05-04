@@ -1,9 +1,9 @@
 package Panels;
 
 import Functions.Strokes;
+import Tools.StraightLine;
 import Tools.*;
 
-import javax.imageio.IIOImage;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PaintCanvas extends JPanel implements MouseListener, MouseMotionListener {
 
     private Point lastPoint;
-    private ToolType currentTool = ToolType.NONE;
+    private ToolType currentTool = ToolType.NULL;
     private DrawTool drawStroke;
     private EraserTool eraseStroke;
     private FillTool fillTool;
@@ -34,6 +34,8 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     private ColorPalette colorPalette;
     private UndoTool undoTool;
     private RedoTool redoTool;
+    private StraightLine straightLine;
+    private Point startPoint;
 
     public PaintCanvas() {
 
@@ -46,6 +48,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
         addMouseListener(this);
         addMouseMotionListener(this);
+
     }
 
     public void setColorPalette(ColorPalette colorPalette) {
@@ -56,8 +59,21 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         this.redoTool = redoTool;
     }
 
+    public RedoTool getRedoTool() {
+        return redoTool;
+    }
+
+    public void setStraightLine(StraightLine straightLine) {
+        this.straightLine = straightLine;
+    }
+
+    public UndoTool getUndoTool() {
+        return undoTool;
+    }
+
     public void setUndoTool(UndoTool undoTool) {
         this.undoTool = undoTool;
+        undoTool.save();
     }
 
     public void setToolMode(ToolType tool) {
@@ -82,6 +98,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
     public ToolType getCurrentTool() {
         return currentTool;
+    }
+
+    public void setCanvasImage(BufferedImage canvasImage) {
+        this.canvasImage = canvasImage;
+        repaint();
     }
 
     public void setLineThickness(int thickness) {
@@ -122,35 +143,53 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                 drawStroke = new DrawTool(this);
                 drawStroke.setColor(currentColor);
                 drawStroke.setThickness(lineThickness);
+                undoTool.save();
+                redoTool.clearHistory();
                 drawStroke.addPoint(e.getPoint());
                 strokes.add(drawStroke);
                 break;
 
             case ERASER:
+
                 erasing = true;
                 eraseStroke = new EraserTool(this);
                 eraseStroke.setThickness(lineThickness);
+                undoTool.save();
+                redoTool.clearHistory();
                 eraseStroke.addPoint(e.getPoint());
                 strokes.add(eraseStroke);
                 break;
 
             case FILL:
+
                 if (fillTool != null) {
                     filling = true;
+                    undoTool.save();
+                    redoTool.clearHistory();
                     int oldColor = canvasImage.getRGB(e.getX(), e.getY());
-
                     int newColor = currentColor.getRGB();
-
                     fillTool.fill(e.getX(), e.getY(), oldColor, newColor);
+
+                    if (redoTool != null) {
+                        redoTool.clearHistory();
+                    }
                 }
                 break;
+
             case DROPPER:
                 dropping = true;
                 int x = e.getX();
                 int y = e.getY();
                 dropperTool.findColor(x, y);
+                break;
+            case LINE:
+                startPoint = e.getPoint();
+                straightLine = new StraightLine(this);
+                straightLine.setColor(currentColor);
+                straightLine.setThickness(lineThickness);
+                straightLine.setStartPoint(startPoint);
+                break;
         }
-
 
         if (e.getX() >= getWidth() - 20 && e.getY() >= getHeight() - 20) {
             filling = false;
@@ -165,11 +204,32 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if(drawing || erasing || filling) {
+            undoTool.save();
+        }
+
         resize = false;
         drawing = false;
         erasing = false;
         filling = false;
         dropping = false;
+
+        switch (currentTool){
+            case LINE:
+                if (startPoint != null) {
+                    Point endPoint = e.getPoint();
+                    straightLine.setEndPoint(endPoint);
+                    Graphics2D g2d = canvasImage.createGraphics();
+                    straightLine.draw(g2d);
+                    g2d.dispose();
+                    strokes.add(straightLine);
+                    undoTool.save();
+                    redoTool.clearHistory();
+                    repaint();
+                    startPoint = null;
+                }
+                break;
+        }
     }
 
     @Override
@@ -198,6 +258,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                 break;
 
             case ERASER:
+
                 if (erasing && eraseStroke != null) {
                     eraseStroke.addPoint(e.getPoint());
                     Graphics2D g2d = canvasImage.createGraphics();
@@ -244,7 +305,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                 case DROPPER:
                     dropperTool.dropperCursor();
                     break;
-                case NONE:
+                case NULL:
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     break;
             }

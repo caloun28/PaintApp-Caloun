@@ -39,7 +39,7 @@ public class DropperTool extends JButton implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
             if (paintCanvas.getCurrentTool() == ToolType.DROPPER) {
-                paintCanvas.setToolMode(ToolType.NONE);
+                paintCanvas.setToolMode(ToolType.NULL);
             } else {
                 paintCanvas.setToolMode(ToolType.DROPPER);
             }

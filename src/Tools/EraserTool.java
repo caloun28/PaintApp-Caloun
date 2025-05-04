@@ -63,7 +63,7 @@ public class EraserTool extends JButton implements ActionListener, Strokes {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
             if (paintCanvas.getCurrentTool() == ToolType.ERASER) {
-                paintCanvas.setToolMode(ToolType.NONE);
+                paintCanvas.setToolMode(ToolType.NULL);
             } else {
                 paintCanvas.setToolMode(ToolType.ERASER);
             }
