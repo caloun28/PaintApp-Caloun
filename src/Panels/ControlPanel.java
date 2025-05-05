@@ -1,6 +1,5 @@
 package Panels;
 
-import Panels.Canvas.PaintCanvas;
 import Tools.Shapes.LineShape;
 import Tools.*;
 import Tools.Shapes.RectangleShape;
@@ -24,10 +23,10 @@ public class ControlPanel extends JPanel implements ChangeListener {
         this.paintCanvas = paintCanvas;
 
         DrawTool drawTool = new DrawTool(paintCanvas);
-        paintCanvas.setDrawStroke(drawTool);
+        paintCanvas.setDrawTool(drawTool);
 
         EraserTool eraserTool = new EraserTool(paintCanvas);
-        paintCanvas.setEraseStroke(eraserTool);
+        paintCanvas.setEraserTool(eraserTool);
 
         FillTool fillTool = new FillTool(paintCanvas);
         paintCanvas.setFillTool(fillTool);

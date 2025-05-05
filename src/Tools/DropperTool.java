@@ -1,6 +1,6 @@
 package Tools;
 
-import Panels.Canvas.PaintCanvas;
+import Panels.PaintCanvas;
 
 import javax.swing.*;
 import java.awt.*;
