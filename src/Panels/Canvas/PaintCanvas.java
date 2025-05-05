@@ -1,7 +1,8 @@
-package Panels;
+package Panels.Canvas;
 
 import Functions.Strokes;
-import Tools.StraightLine;
+import Tools.Shapes.RectangleShape;
+import Tools.Shapes.LineShape;
 import Tools.*;
 
 import javax.swing.*;
@@ -28,14 +29,17 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     private boolean erasing = false;
     private boolean filling = false;
     private boolean dropping = false;
+    private boolean makingLine = false;
+    private boolean makingRectangle = false;
     private int lineThickness = 3;
     private Color currentColor = Color.BLACK;
     private BufferedImage canvasImage;
     private ColorPalette colorPalette;
     private UndoTool undoTool;
     private RedoTool redoTool;
-    private StraightLine straightLine;
+    private LineShape straightLine;
     private Point startPoint;
+    private RectangleShape rectangle;
 
     public PaintCanvas() {
 
@@ -51,6 +55,14 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
     }
 
+    public RectangleShape getRectangle() {
+        return rectangle;
+    }
+
+    public void setRectangle(RectangleShape rectangle) {
+        this.rectangle = rectangle;
+    }
+
     public void setColorPalette(ColorPalette colorPalette) {
         this.colorPalette = colorPalette;
     }
@@ -63,7 +75,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         return redoTool;
     }
 
-    public void setStraightLine(StraightLine straightLine) {
+    public void setStraightLine(LineShape straightLine) {
         this.straightLine = straightLine;
     }
 
@@ -81,7 +93,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public void setFillTool(FillTool fillTool) {
-            this.fillTool = fillTool;
+        this.fillTool = fillTool;
     }
 
     public void setDropperTool(DropperTool dropperTool) {
@@ -182,13 +194,6 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                 int y = e.getY();
                 dropperTool.findColor(x, y);
                 break;
-            case LINE:
-                startPoint = e.getPoint();
-                straightLine = new StraightLine(this);
-                straightLine.setColor(currentColor);
-                straightLine.setThickness(lineThickness);
-                straightLine.setStartPoint(startPoint);
-                break;
         }
 
         if (e.getX() >= getWidth() - 20 && e.getY() >= getHeight() - 20) {
@@ -196,6 +201,8 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
             drawing = false;
             erasing = false;
             dropping = false;
+            makingLine = false;
+            makingRectangle = false;
             resize = true;
 
             lastPoint = e.getPoint();
@@ -204,7 +211,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(drawing || erasing || filling) {
+        if (drawing || erasing || filling) {
             undoTool.save();
         }
 
@@ -213,15 +220,13 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         erasing = false;
         filling = false;
         dropping = false;
+        makingLine = false;
+        makingRectangle = false;
 
-        switch (currentTool){
+        switch (currentTool) {
             case LINE:
                 if (startPoint != null) {
-                    Point endPoint = e.getPoint();
-                    straightLine.setEndPoint(endPoint);
-                    Graphics2D g2d = canvasImage.createGraphics();
-                    straightLine.draw(g2d);
-                    g2d.dispose();
+                    straightLine.finishDrawing(e.getPoint(), canvasImage);
                     strokes.add(straightLine);
                     undoTool.save();
                     redoTool.clearHistory();
@@ -229,6 +234,17 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                     startPoint = null;
                 }
                 break;
+
+            case RECTANGLE:
+                if (startPoint != null) {
+                    rectangle.finishRectangle(e.getPoint(), canvasImage);
+                    strokes.add(rectangle);
+                    undoTool.save();
+                    redoTool.clearHistory();
+                    repaint();
+                    startPoint = null;
+                }
+
         }
     }
 
@@ -244,6 +260,26 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (resize) {
+            filling = false;
+            erasing = false;
+            drawing = false;
+            dropping = false;
+            makingLine = false;
+            makingRectangle = false;
+            int newW = getWidth() + (e.getX() - lastPoint.x);
+            int newH = getHeight() + (e.getY() - lastPoint.y);
+
+            if (newW > 1 && newW < 1800 && newH > 1 && newH < 1020) {
+                setBounds(90, 10, newW, newH);
+                resizeCanvasImage(newW, newH);
+                revalidate();
+                repaint();
+                lastPoint = e.getPoint();
+            }
+            return;
+        }
+
         switch (currentTool) {
 
             case DRAW:
@@ -267,24 +303,39 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
                     repaint();
                 }
                 break;
+
+            case LINE:
+                if (!makingLine) {
+                    makingLine = true;
+                    startPoint = e.getPoint();
+                    straightLine = new LineShape(this);
+                    straightLine.setColor(currentColor);
+                    straightLine.setThickness(lineThickness);
+                    straightLine.setStartPoint(startPoint);
+                }
+                if (straightLine != null) {
+                    straightLine.setEndPoint(e.getPoint());
+                    repaint();
+                }
+                break;
+
+            case RECTANGLE:
+                if (!makingRectangle) {
+                    makingRectangle = true;
+                    startPoint = e.getPoint();
+                    rectangle = new RectangleShape(this);
+                    rectangle.setColor(currentColor);
+                    rectangle.setThickness(lineThickness);
+                    rectangle.setStartPoint(startPoint);
+                }
+                if (rectangle != null) {
+                    rectangle.setEndPoint(e.getPoint());
+                    repaint();
+                }
+                break;
         }
 
-        if (resize) {
-            filling = false;
-            erasing = false;
-            drawing = false;
-            dropping = false;
-            int newW = getWidth() + (e.getX() - lastPoint.x);
-            int newH = getHeight() + (e.getY() - lastPoint.y);
 
-            if (newW > 1 && newW < 1800 && newH > 1 && newH < 1020) {
-                setBounds(90, 10, newW, newH);
-                resizeCanvasImage(newW, newH);
-                revalidate();
-                repaint();
-                lastPoint = e.getPoint();
-            }
-        }
     }
 
     @Override
@@ -292,7 +343,7 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         if (e.getX() >= getWidth() - 20 && e.getY() >= getHeight() - 20) {
             setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
         } else {
-            switch (currentTool){
+            switch (currentTool) {
                 case FILL:
                     fillTool.fillCursor();
                     break;
@@ -316,6 +367,13 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        if (makingLine && straightLine != null) {
+            straightLine.draw((Graphics2D) g);
+        }
+
+        if (makingRectangle && rectangle != null) {
+            rectangle.draw((Graphics2D) g);
+        }
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GRAY);
         g.drawImage(canvasImage, 0, 0, null);

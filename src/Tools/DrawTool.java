@@ -1,7 +1,7 @@
 package Tools;
 
 import Functions.Strokes;
-import Panels.PaintCanvas;
+import Panels.Canvas.PaintCanvas;
 
 import javax.swing.*;
 import java.awt.*;

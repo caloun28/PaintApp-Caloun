@@ -1,10 +1,9 @@
 package Tools;
 
 import Functions.Images;
-import Panels.PaintCanvas;
+import Panels.Canvas.PaintCanvas;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

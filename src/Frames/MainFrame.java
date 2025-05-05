@@ -1,7 +1,7 @@
 package Frames;
 
 import Panels.ControlPanel;
-import Panels.PaintCanvas;
+import Panels.Canvas.PaintCanvas;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;

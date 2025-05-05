@@ -1,7 +1,9 @@
 package Panels;
 
-import Tools.StraightLine;
+import Panels.Canvas.PaintCanvas;
+import Tools.Shapes.LineShape;
 import Tools.*;
+import Tools.Shapes.RectangleShape;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -23,20 +25,30 @@ public class ControlPanel extends JPanel implements ChangeListener {
 
         DrawTool drawTool = new DrawTool(paintCanvas);
         paintCanvas.setDrawStroke(drawTool);
+
         EraserTool eraserTool = new EraserTool(paintCanvas);
         paintCanvas.setEraseStroke(eraserTool);
+
         FillTool fillTool = new FillTool(paintCanvas);
         paintCanvas.setFillTool(fillTool);
+
         DropperTool dropperTool = new DropperTool(paintCanvas);
         paintCanvas.setDropperTool(dropperTool);
+
         UndoTool undoTool = new UndoTool(paintCanvas);
         paintCanvas.setUndoTool(undoTool);
+
         ColorPalette colorPalette = new ColorPalette(paintCanvas);
         paintCanvas.setColorPalette(colorPalette);
+
         RedoTool redoTool = new RedoTool(paintCanvas);
         paintCanvas.setRedoTool(redoTool);
-        StraightLine straightLine = new StraightLine(paintCanvas);
+
+        LineShape straightLine = new LineShape(paintCanvas);
         paintCanvas.setStraightLine(straightLine);
+
+        RectangleShape rectangleShape = new RectangleShape(paintCanvas);
+        paintCanvas.setRectangle(rectangleShape);
 
         setBounds(0, 0, 80, 1080);
         setBackground(new Color(245, 235, 215));
@@ -80,6 +92,7 @@ public class ControlPanel extends JPanel implements ChangeListener {
         add(undoTool);
         add(redoTool);
         add(straightLine);
+        add(rectangleShape);
         add(thicknessSelector);
     }
 
