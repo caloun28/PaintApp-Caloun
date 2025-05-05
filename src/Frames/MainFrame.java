@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame{
-    private PaintCanvas paintCanvas = new PaintCanvas();
+    private final PaintCanvas paintCanvas = new PaintCanvas();
     ControlPanel controlPanel = new ControlPanel(paintCanvas);
 
 

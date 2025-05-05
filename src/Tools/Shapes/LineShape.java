@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class LineShape extends JButton implements ActionListener,Strokes {
+
     private PaintCanvas paintCanvas;
     private Point startPoint;
     private Point endPoint;
