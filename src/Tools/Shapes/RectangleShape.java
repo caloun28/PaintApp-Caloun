@@ -29,9 +29,9 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
         setBorderPainted(false);
         setFocusPainted(false);
         setOpaque(false);
-        setToolTipText("Color Palette");
+        setToolTipText("Rectangle");
 
-        setBounds(25,400,30,30);
+        setBounds(25,460,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

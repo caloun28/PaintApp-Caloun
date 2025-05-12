@@ -24,7 +24,7 @@ public class FillTool extends JButton implements ActionListener {
         setOpaque(false);
         setToolTipText("Fill Tool");
 
-        setBounds(25, 150, 30, 30);
+        setBounds(25, 210, 30, 30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

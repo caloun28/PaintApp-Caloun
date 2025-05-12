@@ -30,7 +30,7 @@ public class DrawTool extends JButton implements ActionListener, Strokes, Serial
         setOpaque(false);
         setToolTipText("Draw Tool");
 
-        setBounds(25,50,30,30);
+        setBounds(25,110,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

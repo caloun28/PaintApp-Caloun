@@ -26,7 +26,7 @@ public class RedoTool extends JButton implements ActionListener, Images {
         setFocusPainted(false);
         setOpaque(false);
         setToolTipText("Redo");
-        setBounds(43,10,30,30);
+        setBounds(43,60,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

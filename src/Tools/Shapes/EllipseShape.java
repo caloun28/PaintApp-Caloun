@@ -31,7 +31,7 @@ public class EllipseShape extends JButton implements ActionListener, Strokes, Se
         setOpaque(false);
         setToolTipText("Ellipse");
 
-        setBounds(25,450,30,30);
+        setBounds(25,510,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

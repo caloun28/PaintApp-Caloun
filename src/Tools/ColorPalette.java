@@ -21,7 +21,7 @@ public class ColorPalette extends JButton implements ActionListener {
         setOpaque(false);
         setToolTipText("Color Palette");
 
-        setBounds(25,250,30,30);
+        setBounds(25,310,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

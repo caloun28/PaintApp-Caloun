@@ -28,7 +28,7 @@ public class UndoTool extends JButton implements ActionListener, Images {
         setFocusPainted(false);
         setOpaque(false);
         setToolTipText("Undo");
-        setBounds(7,10,30,30);
+        setBounds(7,60,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 
