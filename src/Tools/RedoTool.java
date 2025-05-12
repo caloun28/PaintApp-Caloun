@@ -34,15 +34,6 @@ public class RedoTool extends JButton implements ActionListener, Images {
         addActionListener(this);
     }
 
-    public void saveRedo(BufferedImage image) {
-        while (redoHistory.size() > redoIndex + 1) {
-            redoHistory.removeLast();
-        }
-
-        redoHistory.add(copyImage(image));
-        redoIndex++;
-    }
-
     public void clear() {
         redoHistory.clear();
         redoIndex = -1;

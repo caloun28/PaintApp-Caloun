@@ -22,7 +22,11 @@ public class RectangleState implements ToolState {
         if (canvas.isResizing()){
             return;
         }
+        canvas.getUndoTool().save();
+        canvas.getRedoTool().clearHistory();
+
         startPoint = e.getPoint();
+        rectangleShape = new RectangleShape(canvas);
         rectangleShape.setStartPoint(startPoint);
         rectangleShape.setColor(canvas.getCurrentColor());
         rectangleShape.setThickness(canvas.getLineThickness());
@@ -48,8 +52,8 @@ public class RectangleState implements ToolState {
         if (rectangleShape != null && startPoint != null) {
             rectangleShape.finishRectangle(e.getPoint(), canvas.getCanvasImage());
             canvas.addStroke(rectangleShape);
-            canvas.getUndoTool().save();
             canvas.getRedoTool().clearHistory();
+            canvas.getUndoTool().save();
             canvas.repaint();
             canvas.setRectangle(null);
         }

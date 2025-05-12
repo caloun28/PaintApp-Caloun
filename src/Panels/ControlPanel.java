@@ -1,5 +1,6 @@
 package Panels;
 
+import Tools.Shapes.EllipseShape;
 import Tools.Shapes.LineShape;
 import Tools.*;
 import Tools.Shapes.RectangleShape;
@@ -49,35 +50,22 @@ public class ControlPanel extends JPanel implements ChangeListener {
         RectangleShape rectangleShape = new RectangleShape(paintCanvas);
         paintCanvas.setRectangle(rectangleShape);
 
+        EllipseShape ellipseShape = new EllipseShape(paintCanvas);
+        paintCanvas.setEllipse(ellipseShape);
+
+        SaveTool saveTool = new SaveTool(paintCanvas);
+        paintCanvas.setSaveTool(saveTool);
+
+        LoadTool loadTool = new LoadTool(paintCanvas);
+        paintCanvas.setLoadTool(loadTool);
+
         setBounds(0, 0, 80, 1080);
         setBackground(new Color(245, 235, 215));
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         setVisible(true);
         setLayout(null);
 
-        toolsLabel.setBounds(140,5,40,15);
-        toolsLabel.setOpaque(false);
-        toolsLabel.setText("TOOLS");
-        toolsLabel.setFont(new Font("SEGOE UI", Font.PLAIN, 12));
-
-
-        thicknessLabel.setBounds(218,5,60,15);
-        thicknessLabel.setOpaque(false);
-        thicknessLabel.setText("THICKNESS");
-        thicknessLabel.setFont(new Font("SEGOE UI", Font.PLAIN, 12));
-
-        paletteLabel.setBounds(300,5,55,15);
-        paletteLabel.setOpaque(false);
-        paletteLabel.setText("PALETTE");
-        paletteLabel.setFont(new Font("SEGOE UI", Font.PLAIN, 12));
-
-        undoLabel.setBounds(370,5,55,15);
-        undoLabel.setOpaque(false);
-        undoLabel.setText("UNDO");
-        undoLabel.setFont(new Font("SEGOE UI", Font.PLAIN, 12));
-
         thicknessSelector.addChangeListener(this);
-
 
         add(toolsLabel);
         add(thicknessLabel);
@@ -92,6 +80,9 @@ public class ControlPanel extends JPanel implements ChangeListener {
         add(redoTool);
         add(straightLine);
         add(rectangleShape);
+        add(ellipseShape);
+        add(saveTool);
+        add(loadTool);
         add(thicknessSelector);
     }
 

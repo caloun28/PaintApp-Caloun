@@ -17,10 +17,10 @@ public class FillState implements ToolState {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (fillTool != null) {
-            canvas.getUndoTool().save();
-            canvas.getRedoTool().clearHistory();
+        canvas.getUndoTool().save();
+        canvas.getRedoTool().clearHistory();
 
+        if (fillTool != null) {
             int oldColor = canvas.getCanvasImage().getRGB(e.getX(), e.getY());
             int newColor = canvas.getCurrentColor().getRGB();
             fillTool.fill(e.getX(), e.getY(), oldColor, newColor);
@@ -38,5 +38,7 @@ public class FillState implements ToolState {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        canvas.getUndoTool().save();
+        canvas.getRedoTool().clearHistory();
     }
 }

@@ -7,18 +7,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class DrawTool extends JButton implements ActionListener, Strokes {
+public class DrawTool extends JButton implements ActionListener, Strokes, Serializable {
 
-    private ImageIcon icon = new ImageIcon("drawTool.png");
-    private PaintCanvas paintCanvas;
+    private transient ImageIcon icon = new ImageIcon("drawTool.png");
+    private transient PaintCanvas paintCanvas;
     private ArrayList<Point> points = new ArrayList<>();
     private int thickness;
     private Color color;
-    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-    private ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    private transient Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+    private transient ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public DrawTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
@@ -36,6 +37,8 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
         addActionListener(this);
         setIcon(scaledIcon);
     }
+
+    public DrawTool() {}
 
     public void drawCursor(){
         paintCanvas.setCursor(getToolkit().createCustomCursor(icon.getImage(), new Point(0, 31), "cursor"));
@@ -83,4 +86,5 @@ public class DrawTool extends JButton implements ActionListener, Strokes {
     public void draw(Graphics2D g2d) {
         handDraw(g2d);
     }
+
 }

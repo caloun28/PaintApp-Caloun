@@ -36,10 +36,6 @@ public class UndoTool extends JButton implements ActionListener, Images {
         addActionListener(this);
     }
 
-    public void setRedoTool(RedoTool redoTool) {
-        this.redoTool = redoTool;
-    }
-
     public void save(){
         while (history.size() > historyIndex + 1){
             history.removeLast();

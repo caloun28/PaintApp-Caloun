@@ -9,17 +9,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class RectangleShape extends JButton implements ActionListener, Strokes {
+public class RectangleShape extends JButton implements ActionListener, Strokes, Serializable {
 
-    private PaintCanvas paintCanvas;
+    private transient PaintCanvas paintCanvas;
     private Point startPoint;
     private Point endPoint;
     private Color color;
     private int thickness;
-    private ImageIcon icon = new ImageIcon("rectangle.png");
-    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-    private ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    private transient ImageIcon icon = new ImageIcon("rectangle.png");
+    private transient Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+    private transient ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     public RectangleShape(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;

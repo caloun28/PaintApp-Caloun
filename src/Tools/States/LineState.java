@@ -22,6 +22,9 @@ public class LineState implements ToolState {
         if (canvas.isResizing()){
             return;
         }
+        canvas.getUndoTool().save();
+        canvas.getRedoTool().clearHistory();
+
         startPoint = e.getPoint();
         lineShape.setStartPoint(startPoint);
         lineShape.setColor(canvas.getCurrentColor());
