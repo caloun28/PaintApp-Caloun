@@ -7,11 +7,17 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class that makes frame for the app.
+ */
 public class MainFrame extends JFrame{
-    private final PaintCanvas paintCanvas = new PaintCanvas();
-    ControlPanel controlPanel = new ControlPanel(paintCanvas);
 
+    private PaintCanvas paintCanvas = new PaintCanvas();
+    private ControlPanel controlPanel = new ControlPanel(paintCanvas);
 
+    /**
+     * Constructor that sets the look af main frame, it's size and functions like if it's resizable.
+     */
     public MainFrame() {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());

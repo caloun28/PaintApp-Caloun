@@ -11,6 +11,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
+/**
+ * The ControlPanel class is the main sidebar panel that initializes
+ * and organizes all drawing tools and controls for the PaintCanvas.
+ */
 public class ControlPanel extends JPanel implements ChangeListener {
 
     private PaintCanvas paintCanvas;
@@ -20,6 +24,11 @@ public class ControlPanel extends JPanel implements ChangeListener {
     private JLabel undoLabel = new JLabel();
     private ThicknessSelector thicknessSelector = new ThicknessSelector(2);
 
+    /**
+     * Constructs the control panel and registers all tools to the given canvas.
+     * Add the tools to be visible on the panel.
+     * @param paintCanvas The main canvas this control panel manages tools for.
+     */
     public ControlPanel(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -86,7 +95,12 @@ public class ControlPanel extends JPanel implements ChangeListener {
         add(thicknessSelector);
     }
 
-
+    /**
+     * Called when the thickness selector value changes.
+     * Updates the line thickness on the canvas.
+     *
+     * @param e The change event triggered by the selector.
+     */
     @Override
     public void stateChanged(ChangeEvent e) {
         paintCanvas.setLineThickness(thicknessSelector.getThickness());

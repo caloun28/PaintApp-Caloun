@@ -1,6 +1,5 @@
 package Panels;
 
-import Functions.Images;
 import Functions.Strokes;
 import Functions.ToolState;
 import Tools.Shapes.EllipseShape;
@@ -21,6 +20,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * PaintCanvas is the main drawing surface of the application.
+ * It supports various tools, maintains the drawing state, and handles mouse events and resizing.
+ */
 public class PaintCanvas extends JPanel implements MouseListener, MouseMotionListener {
 
     private ToolState currentState;
@@ -94,6 +97,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         this.canvasImage = canvasImage;
     }
 
+    /**
+     * Sets the current drawing color and updates the color palette display.
+     *
+     * @param color The new color to set as the current drawing color.
+     */
     public void setCurrentColor(Color color) {
         this.currentColor = color;
         if (colorPalette != null) colorPalette.updateColor(color);
@@ -103,6 +111,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         this.lineThickness = thickness;
     }
 
+    /**
+     * Sets the UndoTool instance and saves the current state of the canvas.
+     *
+     * @param tool The UndoTool to associate with the canvas.
+     */
     public void setUndoTool(UndoTool tool) {
         this.undoTool = tool;
         undoTool.save();
@@ -172,7 +185,13 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         return currentTool;
     }
 
-
+    /**
+     * Sets the current tool mode and updates the tool's state accordingly.
+     * This method switches between different tools (e.g., draw, eraser, line, etc.)
+     * and initializes the respective tool state to handle user interactions.
+     *
+     * @param toolType The type of tool to set as the current tool (e.g., DRAW, ERASER, LINE).
+     */
     public void setToolMode(ToolType toolType) {
         this.currentTool = toolType;
 
@@ -189,6 +208,12 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     }
     // endregion
 
+    /**
+     * Resizes the internal canvas image and repaints the canvas.
+     *
+     * @param newWidth  The new width of the canvas.
+     * @param newHeight The new height of the canvas.
+     */
     public void resizeCanvasImage(int newWidth, int newHeight) {
         BufferedImage newImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = newImage.createGraphics();
@@ -198,6 +223,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         repaint();
     }
 
+    /**
+     * Handles mouse press events. Initializes resizing or forwards to the current tool state.
+     *
+     * @param e The mouse event triggered on press.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getX() >= getWidth() - 20 && e.getY() >= getHeight() - 20) {
@@ -211,6 +241,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * Handles mouse release events. Stops resizing or forwards to the current tool state.
+     *
+     * @param e The mouse event triggered on release.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         if (resizing) {
@@ -222,6 +257,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * Handles mouse drag events. Supports dynamic resizing or tool interaction.
+     *
+     * @param e The mouse event triggered on drag.
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (resizing) {
@@ -251,6 +291,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
     public void mouseExited(MouseEvent e) {
     }
 
+    /**
+     * Draws the canvas image and overlays shapes if they are active.
+     *
+     * @param g The Graphics object to paint with.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -268,6 +313,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         if (ellipse != null) ellipse.draw(g2d);
     }
 
+    /**
+     * Handles mouse movement and updates the cursor based on position or tool state.
+     *
+     * @param e The mouse event triggered on move.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         if (e.getX() >= getWidth() - 20 && e.getY() >= getHeight() - 20) {
@@ -277,6 +327,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * Saves the current canvas image to a file.
+     *
+     * @param filename The name of the file to save the image to.
+     */
     public void saveDrawing(String filename) {
         try {
             ImageIO.write(canvasImage, "png", new File(filename));
@@ -285,6 +340,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    /**
+     * Loads an image from a file and displays it on the canvas.
+     *
+     * @param filename The name of the file to load the image from.
+     */
     public void loadDrawing(String filename) {
         BufferedImage loadedImage;
         try {

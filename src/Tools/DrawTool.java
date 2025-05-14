@@ -38,8 +38,6 @@ public class DrawTool extends JButton implements ActionListener, Strokes, Serial
         setIcon(scaledIcon);
     }
 
-    public DrawTool() {}
-
     public void drawCursor(){
         paintCanvas.setCursor(getToolkit().createCustomCursor(icon.getImage(), new Point(0, 31), "cursor"));
     }
