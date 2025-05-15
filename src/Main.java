@@ -1,4 +1,4 @@
-import Frames.MainFrame;
+import frames.MainFrame;
 import com.formdev.flatlaf.FlatLightLaf;
 
 
