@@ -10,6 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * RedoTool represents a button that allows redoing
+ * the last undone drawing action on the PaintCanvas.
+ * When clicked, it restores the canvas to a previous redo state
+ * if available.
+ */
 public class RedoTool extends JButton implements ActionListener, Images {
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("res//redoTool.png");
@@ -18,6 +24,12 @@ public class RedoTool extends JButton implements ActionListener, Images {
     private ArrayList<BufferedImage> redoHistory;
     private int redoIndex = -1;
 
+    /**
+     * Constructs a RedoTool button linked to the given PaintCanvas.
+     * Sets up the button appearance and action listener.
+     *
+     * @param paintCanvas the PaintCanvas this tool interacts with
+     */
     public RedoTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
         this.redoHistory = new ArrayList<>();
@@ -34,11 +46,11 @@ public class RedoTool extends JButton implements ActionListener, Images {
         addActionListener(this);
     }
 
-    public void clear() {
-        redoHistory.clear();
-        redoIndex = -1;
-    }
-
+    /**
+     * Redoes the last undone action by restoring
+     * the canvas image from the redo history.
+     * Also saves the current state to the undo history before redoing.
+     */
     public void redo(){
         if (redoIndex >= 0) {
             BufferedImage redoImage = redoHistory.get(redoIndex);
@@ -53,6 +65,12 @@ public class RedoTool extends JButton implements ActionListener, Images {
         }
     }
 
+    /**
+     * Creates a deep copy of the given BufferedImage.
+     *
+     * @param image the BufferedImage to copy
+     * @return a new BufferedImage identical to the original
+     */
     public BufferedImage copyImage(BufferedImage image) {
         BufferedImage copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
         Graphics2D g = copy.createGraphics();
@@ -61,8 +79,14 @@ public class RedoTool extends JButton implements ActionListener, Images {
         return copy;
     }
 
+    /**
+     * Adds a new image state to the redo history.
+     * Removes any redo states beyond the current index before adding the new one.
+     *
+     * @param image the BufferedImage state to add to redo history
+     */
     public void addToRedo(BufferedImage image) {
-        while (redoHistory.size() > redoIndex + 1) {
+        while (redoHistory.size() > redoIndex -1) {
             redoHistory.removeLast();
         }
 
@@ -70,11 +94,21 @@ public class RedoTool extends JButton implements ActionListener, Images {
         redoIndex++;
     }
 
+    /**
+     * Clears redo history and resets index.
+     * Alias for clear().
+     */
     public void clearHistory() {
         redoHistory.clear();
         redoIndex = -1;
     }
 
+    /**
+     * Handles button click events.
+     * If this button is clicked, triggers the redo operation.
+     *
+     * @param e the ActionEvent triggered by the button click
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {

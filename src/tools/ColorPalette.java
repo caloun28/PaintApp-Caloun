@@ -7,10 +7,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * ColorPalette is a button that opens a color chooser dialog.
+ * Allows the user to select a drawing color, which updates the PaintCanvas.
+ */
 public class ColorPalette extends JButton implements ActionListener {
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("res//colorPalette.png");
 
+    /**
+     * Creates a ColorPalette button linked to the given PaintCanvas.
+     *
+     * @param paintCanvas The canvas where the selected color will be applied.
+     */
     public ColorPalette(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
         Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -29,15 +38,24 @@ public class ColorPalette extends JButton implements ActionListener {
         addActionListener(this);
     }
 
+    /**
+     * Updates the button's background to show the currently selected color.
+     *
+     * @param color The new color to display on the button.
+     */
     public void updateColor(Color color) {
         setBackground(color);
         repaint();
     }
 
+    /**
+     * Opens the color chooser dialog on button click.
+     * If a color is selected, sets it as the current color in PaintCanvas.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
-            Color selectedColor = JColorChooser.showDialog(this, "Vyber barvu", Color.BLACK);
+            Color selectedColor = JColorChooser.showDialog(this, "Choose color", Color.BLACK);
             if (selectedColor != null) {
                 paintCanvas.setCurrentColor(selectedColor);
             }

@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * SaveTool represents a button that allows saving the current drawing
+ * from the PaintCanvas to a file.
+ * When clicked, it triggers saving of the drawing data to "drawing.dat".
+ */
 public class SaveTool extends JButton implements ActionListener {
 
     private PaintCanvas paintCanvas;
@@ -14,6 +19,12 @@ public class SaveTool extends JButton implements ActionListener {
     private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
+    /**
+     * Constructs a SaveTool button linked to the given PaintCanvas.
+     * Sets up the button appearance and action listener.
+     *
+     * @param paintCanvas the PaintCanvas this tool interacts with
+     */
     public SaveTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -30,6 +41,13 @@ public class SaveTool extends JButton implements ActionListener {
         addActionListener(this);
     }
 
+    /**
+     * Handles button click events.
+     * If this button is clicked, triggers saving the current drawing
+     * to the file "drawing.dat".
+     *
+     * @param e the ActionEvent triggered by the button click
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         paintCanvas.saveDrawing("drawing.dat");

@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * LoadTool represents a button that allows loading a saved drawing
+ * from a file into the PaintCanvas.
+ * When clicked, it triggers loading of drawing data from "drawing.dat".
+ */
 public class LoadTool extends JButton implements ActionListener {
 
     private PaintCanvas paintCanvas;
@@ -14,6 +19,11 @@ public class LoadTool extends JButton implements ActionListener {
     private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
+    /**
+     * Constructs the LoadTool button tied to the specified PaintCanvas.
+     *
+     * @param paintCanvas The canvas where the drawing will be loaded.
+     */
     public LoadTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -30,6 +40,11 @@ public class LoadTool extends JButton implements ActionListener {
         addActionListener(this);
     }
 
+    /**
+     * Loads a drawing from the file "drawing.dat" into the PaintCanvas when the button is pressed.
+     *
+     * @param e The action event triggered by clicking the button.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         paintCanvas.loadDrawing("drawing.dat");

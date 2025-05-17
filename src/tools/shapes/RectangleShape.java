@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
+/**
+ * RectangleShape is a tool button that allows users to draw rectangles on the PaintCanvas.
+ * It handles tool selection, shape drawing, and final rendering.
+ */
 public class RectangleShape extends JButton implements ActionListener, Strokes, Serializable {
 
     private transient PaintCanvas paintCanvas;
@@ -22,6 +26,12 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
     private transient Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private transient ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
+    /**
+     * Creates a RectangleShape button with a rectangle icon, sets its size, appearance,
+     * tooltip, and adds a click listener to toggle the rectangle drawing mode.
+     *
+     * @param paintCanvas The canvas where the rectangle will be drawn.
+     */
     public RectangleShape(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -51,6 +61,11 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
         this.startPoint = startPoint;
     }
 
+    /**
+     * Handles button clicks to toggle rectangle tool mode on the canvas.
+     *
+     * @param e The action event triggered by clicking the button.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (paintCanvas.getCurrentTool() == ToolType.RECTANGLE) {
@@ -60,6 +75,11 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
         }
     }
 
+    /**
+     * Draws the rectangle from the start to end point using the selected color and stroke thickness.
+     *
+     * @param g2d The graphics context to draw the rectangle on.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         if (startPoint != null && endPoint != null) {
@@ -79,6 +99,12 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
         this.color = color;
     }
 
+    /**
+     * Finalizes the rectangle drawing by setting the end point and rendering it onto the canvas image.
+     *
+     * @param endPoint The end point where the mouse was released.
+     * @param canvasImage The image where the rectangle will be permanently drawn.
+     */
     public void finishRectangle(Point endPoint, BufferedImage canvasImage){
         setEndPoint(endPoint);
         Graphics2D g2d = canvasImage.createGraphics();

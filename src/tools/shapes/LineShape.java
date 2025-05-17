@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
+/**
+ * LineShape is a tool button that allows users to draw straight lines on the PaintCanvas.
+ * It handles tool state toggling, line rendering, and drawing finalization.
+ */
 public class LineShape extends JButton implements ActionListener,Strokes, Serializable {
 
     private transient PaintCanvas paintCanvas;
@@ -22,6 +26,11 @@ public class LineShape extends JButton implements ActionListener,Strokes, Serial
     private transient Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private transient ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
+    /**
+     * Creates a LineShape button with a line icon, position, tooltip, and registers the click listener.
+     *
+     * @param paintCanvas The canvas where the line will be drawn.
+     */
     public LineShape(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -47,6 +56,12 @@ public class LineShape extends JButton implements ActionListener,Strokes, Serial
         this.startPoint = startPoint;
     }
 
+    /**
+     * Finalizes the line drawing by setting the end point and rendering it on the canvas image.
+     *
+     * @param endPoint     The point where the mouse was released.
+     * @param canvasImage  The image where the line will be permanently drawn.
+     */
     public void finishDrawing(Point endPoint, BufferedImage canvasImage) {
         setEndPoint(endPoint);
         Graphics2D g2d = canvasImage.createGraphics();
@@ -63,6 +78,11 @@ public class LineShape extends JButton implements ActionListener,Strokes, Serial
         this.color = color;
     }
 
+    /**
+     * Toggles the line drawing mode when the button is clicked.
+     *
+     * @param e The action event triggered by the button.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (paintCanvas.getCurrentTool() == ToolType.LINE) {
@@ -72,6 +92,11 @@ public class LineShape extends JButton implements ActionListener,Strokes, Serial
         }
     }
 
+    /**
+     * Draws the line from the start to end point using the current color and thickness.
+     *
+     * @param g2d The graphics context to draw on.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         if (startPoint != null && endPoint != null) {

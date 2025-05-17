@@ -7,15 +7,30 @@ import tools.DrawTool;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * DrawState handles freehand drawing interactions on the canvas.
+ * It manages the drawing tool state and processes mouse events for smooth sketching.
+ */
 public class DrawState implements ToolState {
     private PaintCanvas canvas;
     private DrawTool drawTool;
 
+    /**
+     * Initializes a new drawing state with the given canvas context.
+     *
+     * @param canvas The drawing surface where strokes will be applied.
+     */
     public DrawState(PaintCanvas canvas) {
         this.canvas = canvas;
         this.drawTool = new DrawTool(canvas);
     }
 
+    /**
+     * Starts a new stroke when the mouse is pressed.
+     * Initializes drawing settings and registers the tool for undo/redo tracking.
+     *
+     * @param e Mouse event containing the press location.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         drawTool = new DrawTool(canvas);
@@ -30,6 +45,11 @@ public class DrawState implements ToolState {
         canvas.setActiveDrawTool(drawTool);
     }
 
+    /**
+     * Adds points to the stroke and draws the updated shape as the mouse is dragged.
+     *
+     * @param e Mouse event containing the current drag location.
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (drawTool == null) return;
@@ -41,11 +61,21 @@ public class DrawState implements ToolState {
         canvas.repaint();
     }
 
+    /**
+     * Updates the cursor display while moving the mouse.
+     *
+     * @param e Mouse event containing the current cursor location.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         drawTool.drawCursor();
     }
 
+    /**
+     * Finalizes the stroke when the mouse is released and saves it for undo.
+     *
+     * @param e Mouse event containing the release location.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         drawTool = canvas.getDrawTool();

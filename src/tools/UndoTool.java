@@ -10,6 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * UndoTool represents a button for undo functionality in the PaintCanvas.
+ * It maintains a history of canvas images to revert to previous states.
+ * When clicked, it restores the canvas image to the previous snapshot if available.
+ * It also integrates with RedoTool to enable redo actions.
+ */
 public class UndoTool extends JButton implements ActionListener, Images {
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("res//undoTool.png");
@@ -19,7 +25,12 @@ public class UndoTool extends JButton implements ActionListener, Images {
     private int historyIndex = -1;
     private RedoTool redoTool;
 
-
+    /**
+     * Creates an UndoTool button associated with the given PaintCanvas.
+     * Initializes the button appearance and event listener.
+     *
+     * @param paintCanvas the PaintCanvas to manage undo actions on
+     */
     public UndoTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
         this.history = new ArrayList<>();
@@ -36,6 +47,11 @@ public class UndoTool extends JButton implements ActionListener, Images {
         addActionListener(this);
     }
 
+    /**
+     * Saves a snapshot of the current canvas image into the undo history.
+     * Removes any redo history beyond the current index to maintain consistency.
+     * Clears the redo history in the linked RedoTool if it exists.
+     */
     public void save(){
         while (history.size() > historyIndex + 1){
             history.removeLast();
@@ -46,10 +62,15 @@ public class UndoTool extends JButton implements ActionListener, Images {
         historyIndex++;
 
         if (redoTool != null) {
-            redoTool.clear();
+            redoTool.clearHistory();
         }
     }
 
+    /**
+     * Performs the undo operation by reverting the canvas to the previous image
+     * in the history if possible.
+     * Also adds the current state to the redo history for possible redo.
+     */
     public void undo(){
         if (historyIndex > 0) {
 
@@ -65,7 +86,12 @@ public class UndoTool extends JButton implements ActionListener, Images {
         }
     }
 
-
+    /**
+     * Creates and returns a deep copy of the given BufferedImage.
+     *
+     * @param image the BufferedImage to copy
+     * @return a new BufferedImage that is a copy of the original
+     */
     public BufferedImage copyImage(BufferedImage image){
         BufferedImage copy = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
         Graphics2D g = copy.createGraphics();
@@ -73,6 +99,13 @@ public class UndoTool extends JButton implements ActionListener, Images {
         g.dispose();
         return copy;
     }
+
+    /**
+     * Handles button click events. When the UndoTool button is clicked,
+     * triggers the undo operation.
+     *
+     * @param e the ActionEvent triggered by button click
+     */
 
     @Override
     public void actionPerformed(ActionEvent e) {

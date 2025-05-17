@@ -9,12 +9,23 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+/**
+ * FillTool represents a fill (bucket) tool button that allows the user
+ * to fill connected areas of the canvas with a selected color.
+ * It changes the cursor to a fill bucket icon and implements a flood fill algorithm.
+ */
 public class FillTool extends JButton implements ActionListener {
     private ImageIcon icon = new ImageIcon("res//fillTool.png");
     private PaintCanvas paintCanvas;
     private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
+    /**
+     * Constructs a FillTool button tied to the given PaintCanvas.
+     * Initializes the button icon, appearance, and action listener.
+     *
+     * @param paintCanvas The canvas to apply fill operations on.
+     */
     public FillTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -32,10 +43,17 @@ public class FillTool extends JButton implements ActionListener {
         setIcon(scaledIcon);
     }
 
+    /**
+     * Sets the cursor on the PaintCanvas to a custom fill bucket cursor.
+     */
     public void fillCursor(){
         paintCanvas.setCursor(getToolkit().createCustomCursor(icon.getImage(), new Point(16, 0), ""));
     }
 
+    /**
+     * Toggles the fill tool activation state when the button is clicked.
+     * Activates fill mode or resets to null tool mode.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
@@ -51,7 +69,7 @@ public class FillTool extends JButton implements ActionListener {
     /**
      * Recursively fills all connected pixels of the same color (oldColor) with the newColor,
      * starting from the specified (x, y) position.
-     * I used ChatGPT for a hint - https://i.postimg.cc/y6mxBZCy/rada.png
+     * I used ChatGPT for a hint - https://i.postimg.cc/j5tgmmnk/help.png
      * @param x The x-coordinate of the starting pixel.
      * @param y The y-coordinate of the starting pixel.
      * @param oldColor The color to be replaced.

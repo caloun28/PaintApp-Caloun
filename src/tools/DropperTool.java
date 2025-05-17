@@ -8,12 +8,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+/**
+ * DropperTool represents an eyedropper button that allows users to pick colors
+ * from the PaintCanvas. When activated, it changes the cursor to an eyedropper icon
+ * and lets the user select a pixel color from the canvas.
+ */
 public class DropperTool extends JButton implements ActionListener {
     private ImageIcon icon = new ImageIcon("res//dropperTool.png");
     private PaintCanvas paintCanvas;
     private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
+    /**
+     * Constructs a DropperTool button associated with the given PaintCanvas.
+     * Initializes the button icon, appearance, and action listener.
+     *
+     * @param paintCanvas The canvas from which colors will be picked.
+     */
     public DropperTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
 
@@ -31,10 +42,17 @@ public class DropperTool extends JButton implements ActionListener {
         setIcon(scaledIcon);
     }
 
+    /**
+     * Sets the cursor on the PaintCanvas to a custom eyedropper cursor.
+     */
     public void dropperCursor(){
         paintCanvas.setCursor(getToolkit().createCustomCursor(icon.getImage(), new Point(4, 31), "DropperCursor"));
     }
 
+    /**
+     * Handles the button click to toggle eyedropper tool activation.
+     * When active, the PaintCanvas tool mode is set to DROPPER.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
@@ -46,6 +64,13 @@ public class DropperTool extends JButton implements ActionListener {
         }
     }
 
+    /**
+     * Finds and sets the color at the specified (x, y) position on the canvas image.
+     * If the coordinates are out of bounds, the method returns without changes.
+     *
+     * @param x The x-coordinate of the pixel.
+     * @param y The y-coordinate of the pixel.
+     */
     public void findColor(int x, int y){
         BufferedImage canvasImage = paintCanvas.getCanvasImage();
 

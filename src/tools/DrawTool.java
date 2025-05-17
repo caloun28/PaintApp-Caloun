@@ -10,7 +10,12 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+/**
+ * DrawTool represents a freehand drawing tool button with an icon.
+ * Users can draw on the PaintCanvas by adding points which are connected with lines.
+ * Supports setting color and stroke thickness.
+ * Implements the Strokes interface for drawing functionality.
+ */
 public class DrawTool extends JButton implements ActionListener, Strokes, Serializable {
 
     private transient ImageIcon icon = new ImageIcon("res//drawTool.png");
@@ -21,9 +26,14 @@ public class DrawTool extends JButton implements ActionListener, Strokes, Serial
     private transient Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private transient ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
+    /**
+     * Constructs a DrawTool button linked to the specified PaintCanvas.
+     * Initializes the icon, button appearance, and action listener.
+     *
+     * @param paintCanvas The canvas on which drawing occurs.
+     */
     public DrawTool(PaintCanvas paintCanvas) {
         this.paintCanvas = paintCanvas;
-
 
         setBorderPainted(false);
         setFocusPainted(false);
@@ -38,11 +48,16 @@ public class DrawTool extends JButton implements ActionListener, Strokes, Serial
         setIcon(scaledIcon);
     }
 
+    /**
+     * Sets a custom cursor representing the draw tool icon on the PaintCanvas.
+     */
     public void drawCursor(){
         paintCanvas.setCursor(getToolkit().createCustomCursor(icon.getImage(), new Point(0, 31), "cursor"));
     }
 
-
+    /**
+     * Handles button click to toggle the draw tool selection on the PaintCanvas.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
@@ -54,12 +69,20 @@ public class DrawTool extends JButton implements ActionListener, Strokes, Serial
         }
     }
 
-
-
+    /**
+     * Adds a new point to the current drawing stroke.
+     *
+     * @param p The point to add.
+     */
     public void addPoint(Point p) {
         points.add(p);
     }
 
+    /**
+     * Draws the freehand stroke by connecting all added points with lines.
+     *
+     * @param g2d The graphics context to draw on.
+     */
     public void handDraw(Graphics2D g2d) {
         g2d.setStroke(new BasicStroke(thickness));
         g2d.setColor(color);
@@ -80,6 +103,11 @@ public class DrawTool extends JButton implements ActionListener, Strokes, Serial
         this.color = color;
     }
 
+    /**
+     * Draws the current stroke using the graphics context.
+     *
+     * @param g2d The graphics context.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         handDraw(g2d);
