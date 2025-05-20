@@ -41,7 +41,7 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
         setOpaque(false);
         setToolTipText("Rectangle");
 
-        setBounds(25,470,30,30);
+        setBounds(25,598,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 
@@ -77,7 +77,7 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
 
     /**
      * Draws the rectangle from the start to end point using the selected color and stroke thickness.
-     *
+     * Help to mathematically calculate and make rectangle -https://i.postimg.cc/Rh3mxMMC/rectangle-Help.png
      * @param g2d The graphics context to draw the rectangle on.
      */
     @Override

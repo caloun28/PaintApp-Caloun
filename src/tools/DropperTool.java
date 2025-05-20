@@ -34,7 +34,7 @@ public class DropperTool extends JButton implements ActionListener {
         setOpaque(false);
         setToolTipText("Draw Tool");
 
-        setBounds(25,260,30,30);
+        setBounds(25,354,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

@@ -15,7 +15,7 @@ public class ShapeLabel extends JLabel {
      */
     public ShapeLabel() {
         setBorder(BorderFactory.createLineBorder(new Color(182, 165, 131),2,false));
-        setBounds(10,400,60,160);
+        setBounds(10,519,60,170);
         setVisible(true);
         setLayout(null);
         setText("Shapes");

@@ -16,7 +16,7 @@ public class SaveTool extends JButton implements ActionListener {
 
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("res//saveTool.png");
-    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+    private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     /**
@@ -34,7 +34,7 @@ public class SaveTool extends JButton implements ActionListener {
         setToolTipText("Save");
         setIcon(scaledIcon);
 
-        setBounds(7,10,30,30);
+        setBounds(8,35,26,26);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

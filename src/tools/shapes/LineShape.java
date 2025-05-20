@@ -40,7 +40,7 @@ public class LineShape extends JButton implements ActionListener,Strokes, Serial
         setOpaque(false);
         setToolTipText("line");
 
-        setBounds(25,420,30,30);
+        setBounds(25,548,30,30);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

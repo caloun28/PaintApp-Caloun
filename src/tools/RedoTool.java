@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class RedoTool extends JButton implements ActionListener, Images {
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("res//redoTool.png");
-    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+    private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
     private ArrayList<BufferedImage> redoHistory;
     private int redoIndex = -1;
@@ -38,7 +38,7 @@ public class RedoTool extends JButton implements ActionListener, Images {
         setFocusPainted(false);
         setOpaque(false);
         setToolTipText("Redo");
-        setBounds(43,60,30,30);
+        setBounds(43,117,26,26);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

@@ -16,7 +16,7 @@ public class LoadTool extends JButton implements ActionListener {
 
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("res//loadTool.png");
-    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+    private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
     /**
@@ -33,7 +33,7 @@ public class LoadTool extends JButton implements ActionListener {
         setToolTipText("Load");
         setIcon(scaledIcon);
 
-        setBounds(43,10,30,30);
+        setBounds(43,35,26,26);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

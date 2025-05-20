@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class UndoTool extends JButton implements ActionListener, Images {
     private PaintCanvas paintCanvas;
     private ImageIcon icon = new ImageIcon("res//undoTool.png");
-    private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+    private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
     private ArrayList<BufferedImage> history;
     private int historyIndex = -1;
@@ -39,7 +39,7 @@ public class UndoTool extends JButton implements ActionListener, Images {
         setFocusPainted(false);
         setOpaque(false);
         setToolTipText("Undo");
-        setBounds(7,60,30,30);
+        setBounds(8,117,26,26);
         setBackground(new Color(245, 235, 215));
         setVisible(true);
 

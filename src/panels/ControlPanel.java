@@ -1,6 +1,9 @@
 package panels;
 
 import labels.ShapeLabel;
+import labels.ToolLabel;
+import labels.SaveLoadLabel;
+import labels.UndoRedoLabel;
 import tools.shapes.EllipseShape;
 import tools.shapes.LineShape;
 import tools.*;
@@ -20,6 +23,9 @@ public class ControlPanel extends JPanel implements ChangeListener {
 
     private PaintCanvas paintCanvas;
     private ShapeLabel shapeLabel = new ShapeLabel();
+    private ToolLabel toolLabel = new ToolLabel();
+    private SaveLoadLabel saveLoadLabel = new SaveLoadLabel();
+    private UndoRedoLabel undoRedoLabel = new UndoRedoLabel();
     private ThicknessSelector thicknessSelector = new ThicknessSelector(2);
 
     /**
@@ -88,6 +94,9 @@ public class ControlPanel extends JPanel implements ChangeListener {
         add(loadTool);
         add(shapeLabel);
         add(thicknessSelector);
+        add(toolLabel);
+        add(saveLoadLabel);
+        add(undoRedoLabel);
     }
 
     /**
