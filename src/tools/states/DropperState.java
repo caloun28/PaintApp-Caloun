@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
  * It allows users to select a color from the canvas and updates the cursor accordingly.
  */
 public class DropperState implements ToolState {
-    private PaintCanvas canvas;
+    private PaintCanvas paintCanvas;
     private DropperTool dropper;
 
     /**
@@ -20,7 +20,7 @@ public class DropperState implements ToolState {
      * @param canvas The canvas from which colors will be picked.
      */
     public DropperState(PaintCanvas canvas) {
-        this.canvas = canvas;
+        this.paintCanvas = canvas;
         this.dropper = new DropperTool(canvas);
     }
 
@@ -33,7 +33,7 @@ public class DropperState implements ToolState {
     public void mousePressed(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        canvas.getDropperTool().findColor(x, y);
+        paintCanvas.getDropperTool().findColor(x, y);
     }
 
     /**

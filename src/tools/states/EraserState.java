@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  * It manages the drawing logic and state when erasing parts of the image.
  */
 public class EraserState implements ToolState {
-    private PaintCanvas canvas;
+    private PaintCanvas paintCanvas;
     private EraserTool eraserTool;
 
     /**
@@ -21,7 +21,7 @@ public class EraserState implements ToolState {
      * @param canvas The drawing canvas where erasing will occur.
      */
     public EraserState(PaintCanvas canvas) {
-        this.canvas = canvas;
+        this.paintCanvas = canvas;
         this.eraserTool = new EraserTool(canvas);
     }
 
@@ -33,12 +33,12 @@ public class EraserState implements ToolState {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        eraserTool.setThickness(canvas.getLineThickness());
-        canvas.getUndoTool().save();
-        canvas.getRedoTool().clearHistory();
+        eraserTool.setThickness(paintCanvas.getLineThickness());
+        paintCanvas.getUndoTool().save();
+        paintCanvas.getRedoTool().clearHistory();
         eraserTool.addPoint(e.getPoint());
-        canvas.addStroke(eraserTool);
-        canvas.setActiveEraserTool(eraserTool);
+        paintCanvas.addStroke(eraserTool);
+        paintCanvas.setActiveEraserTool(eraserTool);
     }
 
     /**
@@ -51,10 +51,10 @@ public class EraserState implements ToolState {
         if (eraserTool == null) return;
 
         eraserTool.addPoint(e.getPoint());
-        Graphics2D g2d = canvas.getCanvasImage().createGraphics();
+        Graphics2D g2d = paintCanvas.getCanvasImage().createGraphics();
         eraserTool.draw(g2d);
         g2d.dispose();
-        canvas.repaint();
+        paintCanvas.repaint();
     }
 
     /**
@@ -74,6 +74,6 @@ public class EraserState implements ToolState {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        canvas.getUndoTool().save();
+        paintCanvas.getUndoTool().save();
     }
 }

@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  * It manages the drawing tool state and processes mouse events for smooth sketching.
  */
 public class DrawState implements ToolState {
-    private PaintCanvas canvas;
+    private PaintCanvas paintCanvas;
     private DrawTool drawTool;
 
     /**
@@ -21,7 +21,7 @@ public class DrawState implements ToolState {
      * @param canvas The drawing surface where strokes will be applied.
      */
     public DrawState(PaintCanvas canvas) {
-        this.canvas = canvas;
+        this.paintCanvas = canvas;
         this.drawTool = new DrawTool(canvas);
     }
 
@@ -33,16 +33,16 @@ public class DrawState implements ToolState {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        drawTool = new DrawTool(canvas);
-        drawTool.setColor(canvas.getCurrentColor());
-        drawTool.setThickness(canvas.getLineThickness());
+        drawTool = new DrawTool(paintCanvas);
+        drawTool.setColor(paintCanvas.getCurrentColor());
+        drawTool.setThickness(paintCanvas.getLineThickness());
 
-        canvas.getUndoTool().save();
-        canvas.getRedoTool().clearHistory();
+        paintCanvas.getUndoTool().save();
+        paintCanvas.getRedoTool().clearHistory();
         drawTool.addPoint(e.getPoint());
 
-        canvas.addStroke(drawTool);
-        canvas.setActiveDrawTool(drawTool);
+        paintCanvas.addStroke(drawTool);
+        paintCanvas.setActiveDrawTool(drawTool);
     }
 
     /**
@@ -55,10 +55,10 @@ public class DrawState implements ToolState {
         if (drawTool == null) return;
 
         drawTool.addPoint(e.getPoint());
-        Graphics2D g2d = canvas.getCanvasImage().createGraphics();
+        Graphics2D g2d = paintCanvas.getCanvasImage().createGraphics();
         drawTool.draw(g2d);
         g2d.dispose();
-        canvas.repaint();
+        paintCanvas.repaint();
     }
 
     /**
@@ -78,7 +78,7 @@ public class DrawState implements ToolState {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        drawTool = canvas.getDrawTool();
-        canvas.getUndoTool().save();
+        drawTool = paintCanvas.getDrawTool();
+        paintCanvas.getUndoTool().save();
     }
 }

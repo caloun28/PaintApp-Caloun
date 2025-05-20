@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
  * It applies a flood fill algorithm to recolor connected pixels.
  */
 public class FillState implements ToolState {
-    private PaintCanvas canvas;
+    private PaintCanvas paintCanvas;
     private FillTool fillTool;
 
     /**
@@ -20,7 +20,7 @@ public class FillState implements ToolState {
      * @param canvas The drawing canvas on which the fill will be applied.
      */
     public FillState(PaintCanvas canvas) {
-        this.canvas = canvas;
+        this.paintCanvas = canvas;
         this.fillTool = new FillTool(canvas);
     }
 
@@ -32,12 +32,12 @@ public class FillState implements ToolState {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        canvas.getUndoTool().save();
-        canvas.getRedoTool().clearHistory();
+        paintCanvas.getUndoTool().save();
+        paintCanvas.getRedoTool().clearHistory();
 
         if (fillTool != null) {
-            int oldColor = canvas.getCanvasImage().getRGB(e.getX(), e.getY());
-            int newColor = canvas.getCurrentColor().getRGB();
+            int oldColor = paintCanvas.getCanvasImage().getRGB(e.getX(), e.getY());
+            int newColor = paintCanvas.getCurrentColor().getRGB();
             fillTool.fill(e.getX(), e.getY(), oldColor, newColor);
         }
     }
@@ -63,7 +63,7 @@ public class FillState implements ToolState {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        canvas.getUndoTool().save();
-        canvas.getRedoTool().clearHistory();
+        paintCanvas.getUndoTool().save();
+        paintCanvas.getRedoTool().clearHistory();
     }
 }

@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  * It tracks mouse events to create, update, and finalize a rectangle shape.
  */
 public class RectangleState implements ToolState {
-    private final PaintCanvas canvas;
+    private final PaintCanvas paintCanvas;
     private RectangleShape rectangleShape;
     private Point startPoint;
 
@@ -22,7 +22,7 @@ public class RectangleState implements ToolState {
      * @param canvas The drawing canvas where rectangles are created.
      */
     public RectangleState(PaintCanvas canvas) {
-        this.canvas = canvas;
+        this.paintCanvas = canvas;
         this.rectangleShape = new RectangleShape(canvas);
     }
 
@@ -34,18 +34,18 @@ public class RectangleState implements ToolState {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (canvas.isResizing()){
+        if (paintCanvas.isResizing()){
             return;
         }
-        canvas.getUndoTool().save();
-        canvas.getRedoTool().clearHistory();
+        paintCanvas.getUndoTool().save();
+        paintCanvas.getRedoTool().clearHistory();
 
         startPoint = e.getPoint();
-        rectangleShape = new RectangleShape(canvas);
+        rectangleShape = new RectangleShape(paintCanvas);
         rectangleShape.setStartPoint(startPoint);
-        rectangleShape.setColor(canvas.getCurrentColor());
-        rectangleShape.setThickness(canvas.getLineThickness());
-        canvas.setRectangle(rectangleShape);
+        rectangleShape.setColor(paintCanvas.getCurrentColor());
+        rectangleShape.setThickness(paintCanvas.getLineThickness());
+        paintCanvas.setRectangle(rectangleShape);
     }
 
     /**
@@ -57,7 +57,7 @@ public class RectangleState implements ToolState {
     public void mouseDragged(MouseEvent e) {
         if (rectangleShape == null) return;
         rectangleShape.setEndPoint(e.getPoint());
-        canvas.repaint();
+        paintCanvas.repaint();
     }
 
     /**
@@ -67,7 +67,7 @@ public class RectangleState implements ToolState {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        canvas.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        paintCanvas.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     /**
@@ -78,15 +78,15 @@ public class RectangleState implements ToolState {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (canvas.isResizing()) return;
+        if (paintCanvas.isResizing()) return;
 
         if (rectangleShape != null && startPoint != null) {
-            rectangleShape.finishRectangle(e.getPoint(), canvas.getCanvasImage());
-            canvas.addStroke(rectangleShape);
-            canvas.getRedoTool().clearHistory();
-            canvas.getUndoTool().save();
-            canvas.repaint();
-            canvas.setRectangle(null);
+            rectangleShape.finishRectangle(e.getPoint(), paintCanvas.getCanvasImage());
+            paintCanvas.addStroke(rectangleShape);
+            paintCanvas.getRedoTool().clearHistory();
+            paintCanvas.getUndoTool().save();
+            paintCanvas.repaint();
+            paintCanvas.setRectangle(null);
         }
     }
 }

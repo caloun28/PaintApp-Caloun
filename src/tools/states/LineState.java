@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  * It handles mouse events to create, update, and finalize a line shape.
  */
 public class LineState implements ToolState {
-    private final PaintCanvas canvas;
+    private PaintCanvas paintCanvas;
     private LineShape lineShape;
     private Point startPoint;
 
@@ -22,7 +22,7 @@ public class LineState implements ToolState {
      * @param canvas The drawing canvas where the line will be drawn.
      */
     public LineState(PaintCanvas canvas) {
-        this.canvas = canvas;
+        this.paintCanvas = canvas;
         this.lineShape = new LineShape(canvas);
     }
 
@@ -34,17 +34,17 @@ public class LineState implements ToolState {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (canvas.isResizing()){
+        if (paintCanvas.isResizing()){
             return;
         }
-        canvas.getUndoTool().save();
-        canvas.getRedoTool().clearHistory();
+        paintCanvas.getUndoTool().save();
+        paintCanvas.getRedoTool().clearHistory();
 
         startPoint = e.getPoint();
         lineShape.setStartPoint(startPoint);
-        lineShape.setColor(canvas.getCurrentColor());
-        lineShape.setThickness(canvas.getLineThickness());
-        canvas.setStraightLine(lineShape);
+        lineShape.setColor(paintCanvas.getCurrentColor());
+        lineShape.setThickness(paintCanvas.getLineThickness());
+        paintCanvas.setStraightLine(lineShape);
     }
 
     /**
@@ -56,7 +56,7 @@ public class LineState implements ToolState {
     public void mouseDragged(MouseEvent e) {
         if (lineShape == null) return;
         lineShape.setEndPoint(e.getPoint());
-        canvas.repaint();
+        paintCanvas.repaint();
     }
 
     /**
@@ -66,7 +66,7 @@ public class LineState implements ToolState {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        canvas.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        paintCanvas.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     /**
@@ -77,15 +77,15 @@ public class LineState implements ToolState {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (canvas.isResizing()) return;
+        if (paintCanvas.isResizing()) return;
 
         if (lineShape != null && startPoint != null) {
-            lineShape.finishDrawing(e.getPoint(), canvas.getCanvasImage());
-            canvas.addStroke(lineShape);
-            canvas.getUndoTool().save();
-            canvas.getRedoTool().clearHistory();
-            canvas.repaint();
-            canvas.setStraightLine(null);
+            lineShape.finishDrawing(e.getPoint(), paintCanvas.getCanvasImage());
+            paintCanvas.addStroke(lineShape);
+            paintCanvas.getUndoTool().save();
+            paintCanvas.getRedoTool().clearHistory();
+            paintCanvas.repaint();
+            paintCanvas.setStraightLine(null);
         }
     }
 }
