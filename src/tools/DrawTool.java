@@ -93,7 +93,9 @@ public class DrawTool extends JButton implements ActionListener, Strokes, Serial
         }
     }
 
-
+    public ArrayList<Point> getPoints() {
+        return points;
+    }
 
     public void setThickness(int thickness) {
         this.thickness = thickness;

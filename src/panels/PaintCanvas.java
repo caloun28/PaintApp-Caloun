@@ -97,6 +97,10 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
         this.canvasImage = canvasImage;
     }
 
+    public ToolState getCurrentState() {
+        return currentState;
+    }
+
     /**
      * Sets the current drawing color and updates the color palette display.
      *
@@ -194,6 +198,11 @@ public class PaintCanvas extends JPanel implements MouseListener, MouseMotionLis
      */
     public void setToolMode(ToolType toolType) {
         this.currentTool = toolType;
+
+        if (toolType == null) {
+            currentState = null;
+            return;
+        }
 
         switch (toolType) {
             case DRAW -> currentState = new DrawState(this);

@@ -100,13 +100,20 @@ public class UndoTool extends JButton implements ActionListener, Images {
         return copy;
     }
 
+    public ArrayList<BufferedImage> getHistory() {
+        return history;
+    }
+
+    public int getHistoryIndex() {
+        return historyIndex;
+    }
+
     /**
      * Handles button click events. When the UndoTool button is clicked,
      * triggers the undo operation.
      *
      * @param e the ActionEvent triggered by button click
      */
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
