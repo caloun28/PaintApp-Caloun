@@ -86,8 +86,8 @@ public class RedoTool extends JButton implements ActionListener, Images {
      * @param image the BufferedImage state to add to redo history
      */
     public void addToRedo(BufferedImage image) {
-        while (redoHistory.size() > redoIndex -1) {
-            redoHistory.removeLast();
+        while (redoHistory.size() > redoIndex + 1) {
+            redoHistory.remove(redoHistory.size() - 1);
         }
 
         redoHistory.add(copyImage(image));
