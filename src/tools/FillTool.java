@@ -78,7 +78,6 @@ public class FillTool extends JButton implements ActionListener {
     public void fill(int x, int y, int oldColor, int newColor) {
         BufferedImage canvasImage = paintCanvas.getCanvasImage();
 
-
         if (x < 0 || y < 0 || x >= paintCanvas.getWidth() || y >= paintCanvas.getHeight()) return;
 
         if (canvasImage.getRGB(x, y) != oldColor) return;
@@ -98,8 +97,7 @@ public class FillTool extends JButton implements ActionListener {
             if (canvasImage.getRGB(px, py) != oldColor) continue;
 
             canvasImage.setRGB(px, py, newColor);
-
-
+            
             points.add(new Point(px - 1, py));
             points.add(new Point(px + 1, py));
             points.add(new Point(px, py - 1));

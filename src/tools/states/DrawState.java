@@ -40,7 +40,6 @@ public class DrawState implements ToolState {
         paintCanvas.getUndoTool().save();
         paintCanvas.getRedoTool().clearHistory();
         drawTool.addPoint(e.getPoint());
-
         paintCanvas.addStroke(drawTool);
         paintCanvas.setActiveDrawTool(drawTool);
     }

@@ -33,7 +33,14 @@ public class EraserState implements ToolState {
      */
     @Override
     public void mousePressed(MouseEvent e) {
+        eraserTool = new EraserTool(paintCanvas);
         eraserTool.setThickness(paintCanvas.getLineThickness());
+
+        Graphics2D g2d = paintCanvas.getCanvasImage().createGraphics();
+        eraserTool.draw(g2d);
+        g2d.dispose();
+        paintCanvas.repaint();
+
         paintCanvas.getUndoTool().save();
         paintCanvas.getRedoTool().clearHistory();
         eraserTool.addPoint(e.getPoint());
