@@ -37,8 +37,6 @@ public class DrawState implements ToolState {
         drawTool.setColor(paintCanvas.getCurrentColor());
         drawTool.setThickness(paintCanvas.getLineThickness());
 
-        paintCanvas.getUndoTool().save();
-        paintCanvas.getRedoTool().clearHistory();
         drawTool.addPoint(e.getPoint());
         paintCanvas.addStroke(drawTool);
         paintCanvas.setActiveDrawTool(drawTool);
@@ -79,5 +77,8 @@ public class DrawState implements ToolState {
     public void mouseReleased(MouseEvent e) {
         drawTool = paintCanvas.getDrawTool();
         paintCanvas.getUndoTool().save();
+        if (paintCanvas.getRedoTool() != null) {
+            paintCanvas.getRedoTool().clearHistory(); // clear only after a valid new action
+        }
     }
 }
