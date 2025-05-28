@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * DrawTool represents a freehand drawing tool button with an icon.
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 public class DrawTool extends JButton implements ActionListener, Strokes, Serializable {
 
-    private transient ImageIcon icon = new ImageIcon("res//drawTool.png");
+    private transient ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/drawTool.png")));
     private transient PaintCanvas paintCanvas;
     private ArrayList<Point> points = new ArrayList<>();
     private int thickness;

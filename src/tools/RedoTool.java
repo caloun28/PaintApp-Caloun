@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * RedoTool represents a button that allows redoing
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 public class RedoTool extends JButton implements ActionListener, Images {
     private PaintCanvas paintCanvas;
-    private ImageIcon icon = new ImageIcon("res//redoTool.png");
+    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/redoTool.png")));
     private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
     private ArrayList<BufferedImage> redoHistory;

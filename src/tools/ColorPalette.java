@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * ColorPalette is a button that opens a color chooser dialog.
@@ -13,7 +14,7 @@ import java.awt.event.ActionListener;
  */
 public class ColorPalette extends JButton implements ActionListener {
     private PaintCanvas paintCanvas;
-    private ImageIcon icon = new ImageIcon("res//colorPalette.png");
+    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/colorPalette.png")));
 
     /**
      * Creates a ColorPalette button linked to the given PaintCanvas.

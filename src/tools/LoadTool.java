@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * LoadTool represents a button that allows loading a saved drawing
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
 public class LoadTool extends JButton implements ActionListener {
 
     private PaintCanvas paintCanvas;
-    private ImageIcon icon = new ImageIcon("res//loadTool.png");
+    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/loadTool.png")));
     private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 

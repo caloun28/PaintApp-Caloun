@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 /**
  * DropperTool represents an eyedropper button that allows users to pick colors
@@ -14,7 +15,7 @@ import java.awt.image.BufferedImage;
  * and lets the user select a pixel color from the canvas.
  */
 public class DropperTool extends JButton implements ActionListener {
-    private ImageIcon icon = new ImageIcon("res//dropperTool.png");
+    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/dropperTool.png")));
     private PaintCanvas paintCanvas;
     private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);

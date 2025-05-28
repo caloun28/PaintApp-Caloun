@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * FillTool represents a fill (bucket) tool button that allows the user
@@ -15,7 +16,7 @@ import java.util.LinkedList;
  * It changes the cursor to a fill bucket icon and implements a flood fill algorithm.
  */
 public class FillTool extends JButton implements ActionListener {
-    private ImageIcon icon = new ImageIcon("res//fillTool.png");
+    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/fillTool.png")));
     private PaintCanvas paintCanvas;
     private Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * RectangleShape is a tool button that allows users to draw rectangles on the PaintCanvas.
@@ -22,7 +23,7 @@ public class RectangleShape extends JButton implements ActionListener, Strokes, 
     private Point endPoint;
     private Color color;
     private int thickness;
-    private transient ImageIcon icon = new ImageIcon("res//rectangle.png");
+    private transient ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/rectangle.png")));
     private transient Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     private transient ImageIcon scaledIcon = new ImageIcon(scaledImage);
 

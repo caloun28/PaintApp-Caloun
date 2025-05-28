@@ -9,13 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * EraserTool allows users to erase drawn content by making pixels transparent.
  * Implements a custom cursor, stroke-based erasing, and integrates with PaintCanvas.
  */
 public class EraserTool extends JButton implements ActionListener, Strokes {
-    private ImageIcon eraserIcon = new ImageIcon("res//eraserTool.png");
+    private ImageIcon eraserIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/eraserTool.png")));
     private PaintCanvas paintCanvas;
     private ArrayList<Point> points = new ArrayList<>();
     private int thickness;

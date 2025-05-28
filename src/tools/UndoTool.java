@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * UndoTool represents a button for undo functionality in the PaintCanvas.
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 public class UndoTool extends JButton implements ActionListener, Images {
     private PaintCanvas paintCanvas;
-    private ImageIcon icon = new ImageIcon("res//undoTool.png");
+    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/undoTool.png")));
     private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
     private ArrayList<BufferedImage> history;

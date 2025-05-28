@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * SaveTool represents a button that allows saving the current drawing
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
 public class SaveTool extends JButton implements ActionListener {
 
     private PaintCanvas paintCanvas;
-    private ImageIcon icon = new ImageIcon("res//saveTool.png");
+    private ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/saveTool.png")));
     private Image scaledImage = icon.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
     private ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
