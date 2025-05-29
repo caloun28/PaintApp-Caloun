@@ -55,14 +55,18 @@ public class RedoTool extends JButton implements ActionListener, Images {
     public void redo(){
         if (redoIndex >= 0) {
             BufferedImage redoImage = redoHistory.get(redoIndex);
-            redoIndex--;
 
             if (paintCanvas.getUndoTool() != null) {
-                paintCanvas.getUndoTool().save();
+                UndoTool undoTool = paintCanvas.getUndoTool();
+                if (undoTool.getHistoryIndex() < undoTool.getHistory().size() - 1) {
+                    undoTool.setHistoryIndex(undoTool.getHistoryIndex() + 1);
+                }
             }
 
             paintCanvas.setCanvasImage(copyImage(redoImage));
             paintCanvas.repaint();
+
+            redoIndex--;
         }
     }
 
@@ -115,5 +119,13 @@ public class RedoTool extends JButton implements ActionListener, Images {
         if (e.getSource() == this) {
             redo();
         }
+    }
+
+    public ArrayList<BufferedImage> getRedoHistory() {
+        return redoHistory;
+    }
+
+    public int getRedoIndex() {
+        return redoIndex;
     }
 }

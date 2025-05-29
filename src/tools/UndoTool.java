@@ -54,17 +54,17 @@ public class UndoTool extends JButton implements ActionListener, Images {
      * Clears the redo history in the linked RedoTool if it exists.
      */
     public void save(){
-        while (history.size() > historyIndex + 1){
-            history.removeLast();
+        while (history.size() > historyIndex + 1) {
+            history.remove(history.size() - 1);
         }
-
         BufferedImage copy = copyImage(paintCanvas.getCanvasImage());
         history.add(copy);
-        historyIndex++;
+        historyIndex = history.size() - 1;
 
         if (redoTool != null) {
             redoTool.clearHistory();
         }
+
     }
 
     /**
@@ -74,7 +74,6 @@ public class UndoTool extends JButton implements ActionListener, Images {
      */
     public void undo(){
         if (historyIndex > 0) {
-
             if (paintCanvas.getRedoTool() != null) {
                 BufferedImage currentState = copyImage(paintCanvas.getCanvasImage());
                 paintCanvas.getRedoTool().addToRedo(currentState);
@@ -84,6 +83,7 @@ public class UndoTool extends JButton implements ActionListener, Images {
             BufferedImage previous = history.get(historyIndex);
             paintCanvas.setCanvasImage(copyImage(previous));
             paintCanvas.repaint();
+
         }
     }
 
@@ -120,5 +120,9 @@ public class UndoTool extends JButton implements ActionListener, Images {
         if (e.getSource() == this) {
             undo();
         }
+    }
+
+    public void setHistoryIndex(int historyIndex) {
+        this.historyIndex = historyIndex;
     }
 }
