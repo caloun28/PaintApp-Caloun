@@ -7,8 +7,19 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Test class for DrawTool.
+ */
 class DrawToolTest {
 
+    /**
+     * Tests adding a point to DrawTool.
+     *
+     * Adds a single point to the tool and verifies that:
+     * - the points list size increases to 1,
+     * - the added point is correctly stored as the first element.
+     */
     @Test
     void addPoint() {
 

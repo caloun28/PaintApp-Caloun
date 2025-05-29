@@ -8,8 +8,19 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for SaveTool.
+ */
 class SaveToolTest {
 
+    /**
+     * Tests saving the current drawing.
+     *
+     * Sets a blank canvas image on PaintCanvas,
+     * triggers the save action,
+     * and verifies that a file named "drawing.dat" is created.
+     * The test cleans up by deleting the file afterward.
+     */
     @Test
     void saveDrawingTest() {
         PaintCanvas paintCanvas = new PaintCanvas();

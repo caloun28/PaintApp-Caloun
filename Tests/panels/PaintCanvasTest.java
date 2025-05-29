@@ -9,12 +9,20 @@ import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for PaintCanvas.
+ */
 class PaintCanvasTest {
     PaintCanvas paintCanvas = new PaintCanvas();
+
+    /**
+     * Tests setting the tool mode on PaintCanvas.
+     *
+     * Sets various tool modes and verifies that the current tool and corresponding state
+     * are correctly updated. Also verifies that setting null clears the current tool and state.
+     */
     @Test
     void setToolMode() {
-
-
         paintCanvas.setToolMode(ToolType.DRAW);
         assertEquals(ToolType.DRAW, paintCanvas.getCurrentTool());
         assertTrue(paintCanvas.getCurrentState() instanceof DrawState);
@@ -48,6 +56,12 @@ class PaintCanvasTest {
         assertNull(paintCanvas.getCurrentState());
     }
 
+    /**
+     * Tests resizing the canvas image.
+     *
+     * Creates a red 100x100 image, sets it as the canvas image, resizes it to a larger size,
+     * and verifies that the new image has correct dimensions and preserves the red color.
+     */
     @Test
     void resizeCanvasTest() {
 

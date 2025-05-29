@@ -8,8 +8,18 @@ import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for RectangleShape.
+ */
 class RectangleShapeTest {
 
+    /**
+     * Tests the finishRectangle method.
+     *
+     * Sets the start point, color, and thickness of the rectangle,
+     * draws it onto a BufferedImage, and verifies that the color
+     * of the pixels in the top-left corner matches the expected color.
+     */
     @Test
     void finishRectangleTest() {
         PaintCanvas paintCanvas = new PaintCanvas();

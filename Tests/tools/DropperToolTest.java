@@ -8,8 +8,18 @@ import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for DropperTool.
+ */
 class DropperToolTest {
 
+    /**
+     * Tests the findColor method.
+     *
+     * Sets a known color on a pixel of the canvas image,
+     * uses the dropper tool to pick the color at that pixel,
+     * and verifies that the canvas's current color matches the expected color.
+     */
     @Test
     void findColor() {
         PaintCanvas canvas = new PaintCanvas();
