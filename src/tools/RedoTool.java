@@ -51,6 +51,7 @@ public class RedoTool extends JButton implements ActionListener, Images {
      * Redoes the last undone action by restoring
      * the canvas image from the redo history.
      * Also saves the current state to the undo history before redoing.
+     * Help https://i.postimg.cc/yNYJKVQg/Help-redo.png
      */
     public void redo(){
         if (redoIndex >= 0) {

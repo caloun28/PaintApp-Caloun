@@ -71,6 +71,7 @@ public class UndoTool extends JButton implements ActionListener, Images {
      * Performs the undo operation by reverting the canvas to the previous image
      * in the history if possible.
      * Also adds the current state to the redo history for possible redo.
+     * help https://i.postimg.cc/zXZVBw21/help-undo.png
      */
     public void undo(){
         if (historyIndex > 0) {
