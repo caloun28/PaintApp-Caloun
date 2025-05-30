@@ -120,12 +120,4 @@ public class RedoTool extends JButton implements ActionListener, Images {
             redo();
         }
     }
-
-    public ArrayList<BufferedImage> getRedoHistory() {
-        return redoHistory;
-    }
-
-    public int getRedoIndex() {
-        return redoIndex;
-    }
 }
